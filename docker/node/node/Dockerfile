@@ -2,6 +2,14 @@ FROM node:latest
 
 WORKDIR /usr/src/app
 
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+
 ENV DOCKERIZE_VERSION v0.7.0
 
 RUN apt-get update \
@@ -11,6 +19,10 @@ RUN apt-get update \
 
 
 EXPOSE 3000
+
+
+
+
 
 CMD ["node", "index.js"]
 
