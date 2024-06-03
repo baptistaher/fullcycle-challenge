@@ -15,6 +15,7 @@ services:
     container_name: db
     restart: always
     volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./mysql:/var/lib/mysql
     tty: true
     environment:
@@ -27,7 +28,7 @@ services:
     build:
       context: ./node
     container_name: app
-    entrypoint: dockerize -wait tcp://db:3306 -timeout 20s docker-entrypoint.sh
+    entrypoint: dockerize -wait tcp://db:3306 -timeout 30s docker-entrypoint.sh
     command: node index.js
     volumes:
       - ./node:/usr/src/app

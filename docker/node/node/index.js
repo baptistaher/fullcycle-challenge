@@ -20,8 +20,6 @@ pool.query(sql, (err) => {
   }
   console.log("Data inserted successfully");
 });
-// connection.query(sql);
-// connection.end();
 
 async function getData() {
   try {
