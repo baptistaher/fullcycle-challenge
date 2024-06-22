@@ -74,6 +74,14 @@ autobind:
 # modelgen, the others will be allowed when binding to fields. Configure them to
 # your liking
 models:
+  Category:
+    model:
+      - github.com/bosshentai/fullcycle-challenge/graphQL/graph/model.Category
+
+  Course:
+    model:
+      - github.com/bosshentai/fullcycle-challenge/graphQL/graph/model.Course
+
   ID:
     model:
       - github.com/99designs/gqlgen/graphql.ID
