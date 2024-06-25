@@ -1,0 +1,34 @@
+services:
+  grpc-server:
+    build: .
+    ports:
+      - "50051:50051"
+    volumes:
+      - ./data:/app
+    networks:
+      - grpc-network
+
+  evans:
+    image: ghcr.io/ktr0731/evans:latest
+    networks:
+      - grpc-network
+    depends_on:
+      - grpc-server
+    volumes:
+      - ./proto:/proto
+    entrypoint:
+      [
+        "evans",
+        "--host",
+        "grpc-server",
+        "--port",
+        "50051",
+        "--proto",
+        "/proto/course_category.proto",
+        "repl",
+      ]
+    # entrypoint: ["evans", "--host", "grpc-server", "--port", "50051", "repl"]
+
+networks:
+  grpc-network:
+    driver: bridge
