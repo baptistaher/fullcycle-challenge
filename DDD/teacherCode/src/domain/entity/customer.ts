@@ -5,6 +5,7 @@ export default class Customer {
   private _name: string = "";
   private _address!: Address;
   private _active = true;
+  private _rewardsPoints = 0;
 
   // constructor(id: string) {
   //   this._id = id;
@@ -38,6 +39,14 @@ export default class Customer {
     return this._name;
   }
 
+  get id(): string {
+    return this._id;
+  }
+
+  get rewardsPoints(): number {
+    return this._rewardsPoints;
+  }
+
   isActive(): boolean {
     return this._active;
   }
@@ -60,5 +69,9 @@ export default class Customer {
 
   deactivate() {
     this._active = false;
+  }
+
+  addRewardPoints(points: number) {
+    this._rewardsPoints += points;
   }
 }

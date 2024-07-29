@@ -48,8 +48,17 @@ describe("Customer unit test", () => {
       customer.activate();
     }).toThrow("Address is mandatory to activate a customer");
   });
-  // it("should get 1 as result", () => {
-  //   const result = 1;
-  //   expect(result).toBe(1);
-  // });
+
+  it("should add reward points", () => {
+    const customer = new Customer("1", "Customer 1");
+    expect(customer.rewardsPoints).toBe(0);
+
+    customer.addRewardPoints(10);
+
+    expect(customer.rewardsPoints).toBe(10);
+
+    customer.addRewardPoints(10);
+
+    expect(customer.rewardsPoints).toBe(20);
+  });
 });
