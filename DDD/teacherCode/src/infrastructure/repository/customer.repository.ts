@@ -1,3 +1,4 @@
+import Address from "../../domain/entity/address";
 import Customer from "../../domain/entity/customer";
 import CustomerRepositoryInterface from "../../domain/repository/customer-repository.interface";
 import CustomerModel from "../db/sequelize/model/customer.model";
@@ -16,13 +17,62 @@ export default class CustomerRepository implements CustomerRepositoryInterface {
     });
     // throw new Error("Method not implemented.");
   }
-  update(entity: Customer): Promise<void> {
-    throw new Error("Method not implemented.");
+  async update(entity: Customer): Promise<void> {
+    await CustomerModel.update(
+      {
+        name: entity.name,
+        street: entity.address.street,
+        number: entity.address.number,
+      },
+      {
+        where: {
+          id: entity.id,
+        },
+      }
+    );
+    // throw new Error("Method not implemented.");
   }
-  find(id: string): Promise<Customer> {
-    throw new Error("Method not implemented.");
+  async find(id: string): Promise<Customer> {
+    let customerModel;
+
+    try {
+      customerModel = await CustomerModel.findOne({
+        where: {
+          id,
+        },
+        rejectOnEmpty: true,
+      });
+    } catch (error) {
+      throw new Error("Customer not found");
+    }
+
+    const customer = new Customer(customerModel.id, customerModel.name);
+    customer.changeAddress(
+      new Address(
+        customerModel.street,
+        customerModel.number,
+        customerModel.zipCode,
+        customerModel.city
+      )
+    );
+
+    return customer;
+    // throw new Error("Method not implemented.");
   }
-  findAll(): Promise<Customer[]> {
-    throw new Error("Method not implemented.");
+  async findAll(): Promise<Customer[]> {
+    const customerModels = await CustomerModel.findAll();
+
+    return customerModels.map((customerModel) => {
+      const customer = new Customer(customerModel.id, customerModel.name);
+      const address = new Address(
+        customerModel.street,
+        customerModel.number,
+        customerModel.zipCode,
+        customerModel.city
+      );
+      customer.changeAddress(address);
+
+      return customer;
+    });
   }
 }

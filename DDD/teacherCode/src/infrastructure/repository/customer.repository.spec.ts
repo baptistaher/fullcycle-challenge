@@ -79,4 +79,54 @@ describe("Customer repository unit test", () => {
       city: address.city,
     });
   });
+
+  it("should find a customer", async () => {
+    const customerRepository = new CustomerRepository();
+    const customer = new Customer("123", "Customer 1");
+    const address = new Address("Street 1", 1, "00000-000", "City 1");
+    customer.Address = address;
+    await customerRepository.create(customer);
+
+    const customerModel = await CustomerModel.findOne({ where: { id: "123" } });
+    const foundCustomer = await customerRepository.find("123");
+    expect(customerModel.toJSON()).toStrictEqual({
+      id: foundCustomer.id,
+      name: foundCustomer.name,
+      active: foundCustomer.isActive(),
+      street: foundCustomer.address.street,
+      number: foundCustomer.address.number,
+      zipCode: foundCustomer.address.zip,
+      city: foundCustomer.address.city,
+      rewardPoints: foundCustomer.rewardPoints,
+    });
+  });
+
+  it("should find a customer", async () => {
+    const customerRepository = new CustomerRepository();
+
+    expect(async () => {
+      await customerRepository.find("123AV");
+    }).rejects.toThrow("Customer not found");
+  });
+
+  it("should find all customers", async () => {
+    const customerRepository = new CustomerRepository();
+    const customer = new Customer("123", "Customer 1");
+    const address = new Address("Street 1", 1, "00000-000", "City 1");
+    customer.Address = address;
+    await customerRepository.create(customer);
+
+    const customer2 = new Customer("456", "Customer 2");
+    const address2 = new Address("Street 2", 2, "11111-111", "City 2");
+    customer2.Address = address2;
+
+    await customerRepository.create(customer2);
+    const foundCustomers = await customerRepository.findAll();
+    const customers = [customer, customer2];
+
+    expect(customers).toHaveLength(2);
+    expect(customers).toEqual(foundCustomers);
+    expect(customers).toContainEqual(customer);
+    expect(customers).toContainEqual(customer2);
+  });
 });
