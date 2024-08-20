@@ -1,90 +1,13 @@
-import { SendEmailWhenCustomerIsCreatedHandler1 } from "../customer/handler/send-email-when-customer-is-created";
-import SendEmailWhenProductIsCreatedHandler from "../product/handler/send-email-when-product-is-created";
-import ProductCreatedEvent from "../product/product-create.event";
-import EventDispatcher from "./event-dispatcher";
-import { SendEmailWhenCustomerIsCreatedHandler2 } from "../customer/handler/send-email-when-customer-is-created2";
-import CustomerCreatedEvent from "../customer/customer-created.event";
-import Customer from "../../entity/customer";
-import { SendConsoleLogWhenCustomerChangeAddress } from "../customer/handler/send-console-log-when-customer-change-address";
-import Address from "../../entity/address";
-import CustomerChangeAddressEvent from "../customer/customer-change-address.event";
+import EventDispatcher from "../../@shared/event/event-dispatcher";
+import Customer from "../entity/customer";
+import Address from "../value-object/address";
+import CustomerChangeAddressEvent from "./customer-change-address.event";
+import CustomerCreatedEvent from "./customer-created.event";
+import { SendConsoleLogWhenCustomerChangeAddress } from "./handler/send-console-log-when-customer-change-address";
+import { SendEmailWhenCustomerIsCreatedHandler1 } from "./handler/send-email-when-customer-is-created";
+import { SendEmailWhenCustomerIsCreatedHandler2 } from "./handler/send-email-when-customer-is-created2";
 
-describe("Domain events tests", () => {
-  it("should register an event handler", () => {
-    const eventDispatcher = new EventDispatcher();
-    const eventHandler = new SendEmailWhenProductIsCreatedHandler();
-
-    eventDispatcher.register("ProductCreatedEvent", eventHandler);
-
-    expect(
-      eventDispatcher.getEventHandlers["ProductCreatedEvent"]
-    ).toBeDefined();
-    expect(eventDispatcher.getEventHandlers["ProductCreatedEvent"].length).toBe(
-      1
-    );
-    expect(
-      eventDispatcher.getEventHandlers["ProductCreatedEvent"][0]
-    ).toMatchObject(eventHandler);
-  });
-
-  it("should unregister an event handler", () => {
-    const eventDispatcher = new EventDispatcher();
-    const eventHandler = new SendEmailWhenProductIsCreatedHandler();
-
-    eventDispatcher.register("ProductCreatedEvent", eventHandler);
-
-    expect(
-      eventDispatcher.getEventHandlers["ProductCreatedEvent"][0]
-    ).toMatchObject(eventHandler);
-
-    eventDispatcher.unregister("ProductCreatedEvent", eventHandler);
-
-    expect(
-      eventDispatcher.getEventHandlers["ProductCreatedEvent"]
-    ).toBeDefined();
-    expect(eventDispatcher.getEventHandlers["ProductCreatedEvent"].length).toBe(
-      0
-    );
-  });
-
-  it("should unregister all event handlers", () => {
-    const eventDispatcher = new EventDispatcher();
-    const eventHandler = new SendEmailWhenProductIsCreatedHandler();
-
-    eventDispatcher.register("ProductCreatedEvent", eventHandler);
-
-    expect(
-      eventDispatcher.getEventHandlers["ProductCreatedEvent"][0]
-    ).toMatchObject(eventHandler);
-
-    eventDispatcher.unregisterAll();
-    expect(
-      eventDispatcher.getEventHandlers["ProductCreatedEvent"]
-    ).toBeUndefined();
-  });
-
-  it("should notify all event handler", () => {
-    const eventDispatcher = new EventDispatcher();
-    const eventHandler = new SendEmailWhenProductIsCreatedHandler();
-    const spyEventHandler = jest.spyOn(eventHandler, "handle");
-
-    eventDispatcher.register("ProductCreatedEvent", eventHandler);
-
-    expect(
-      eventDispatcher.getEventHandlers["ProductCreatedEvent"][0]
-    ).toMatchObject(eventHandler);
-
-    const productCreatedEvent = new ProductCreatedEvent({
-      name: "Product 1",
-      description: "Product description",
-      price: 10.0,
-    });
-
-    // When o notify is called the SendEmailWhenProductIsCreatedHandler.handle method will be invoked
-    eventDispatcher.notify(productCreatedEvent);
-    expect(spyEventHandler).toHaveBeenCalled();
-  });
-
+describe("Customer Event test", () => {
   it("should register an customer event handler", () => {
     const eventDispatcher = new EventDispatcher();
     const eventHandler = new SendEmailWhenCustomerIsCreatedHandler1();

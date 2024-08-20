@@ -1,4 +1,4 @@
-import EventHandlerInterface from "../../@shared/event-handler.interface";
+import EventHandlerInterface from "../../../@shared/event-handler.interface";
 import CustomerChangeAddressEvent from "../customer-change-address.event";
 
 export class SendConsoleLogWhenCustomerChangeAddress
