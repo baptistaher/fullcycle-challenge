@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/adapters/dto"
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/adapters/dto"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
 )

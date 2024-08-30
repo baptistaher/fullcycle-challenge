@@ -3,7 +3,7 @@ package application_test
 import (
 	"testing"
 
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 )

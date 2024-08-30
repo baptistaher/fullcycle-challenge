@@ -6,8 +6,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/adapters/web/handler"
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/adapters/web/handler"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
 )

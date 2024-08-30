@@ -3,7 +3,7 @@ package cli
 import (
 	"fmt"
 
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
 )
 
 func Run(service application.ProductServiceInterface, action string, productId string, productName string, price float64) (string, error) {

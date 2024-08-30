@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/adapters/cli"
-	mock_application "github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application/mocks"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/adapters/cli"
+	mock_application "github.com/bosshentai/fullcycle-challenge/hexa-architecture/application/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 )

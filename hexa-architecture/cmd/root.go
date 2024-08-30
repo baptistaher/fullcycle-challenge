@@ -7,8 +7,8 @@ import (
 	"database/sql"
 	"os"
 
-	dbInfra "github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/adapters/db"
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
+	dbInfra "github.com/bosshentai/fullcycle-challenge/hexa-architecture/adapters/db"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
 
 	"github.com/spf13/cobra"
 )

@@ -6,7 +6,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/adapters/cli"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/adapters/cli"
 	"github.com/spf13/cobra"
 )
 

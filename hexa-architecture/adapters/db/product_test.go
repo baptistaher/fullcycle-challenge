@@ -5,8 +5,8 @@ import (
 	"log"
 	"testing"
 
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/adapters/db"
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/adapters/db"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
 	"github.com/stretchr/testify/require"
 )
 

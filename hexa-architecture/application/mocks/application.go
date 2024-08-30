@@ -7,7 +7,7 @@ package mock_application
 import (
 	reflect "reflect"
 
-	application "github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
+	application "github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
 	gomock "github.com/golang/mock/gomock"
 )
 

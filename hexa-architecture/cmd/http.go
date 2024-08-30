@@ -6,7 +6,7 @@ package cmd
 import (
 	"fmt"
 
-	server2 "github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/adapters/web/server"
+	server2 "github.com/bosshentai/fullcycle-challenge/hexa-architecture/adapters/web/server"
 	"github.com/spf13/cobra"
 )
 

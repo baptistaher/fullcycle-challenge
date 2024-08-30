@@ -1,6 +1,6 @@
 package dto
 
-import "github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
+import "github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
 
 type Product struct {
 	ID     string  `json:"id"`

@@ -3,8 +3,8 @@ package application_test
 import (
 	"testing"
 
-	"github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application"
-	mock_application "github.com/bosshentai/fullcycle-challenge/hexa-arquitecture/application/mocks"
+	"github.com/bosshentai/fullcycle-challenge/hexa-architecture/application"
+	mock_application "github.com/bosshentai/fullcycle-challenge/hexa-architecture/application/mocks"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/require"
 )

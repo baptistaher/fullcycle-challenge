@@ -1,4 +1,4 @@
-module github.com/bosshentai/fullcycle-challenge/hexa-arquitecture
+module github.com/bosshentai/fullcycle-challenge/hexa-architecture
 
 go 1.23.0
 
