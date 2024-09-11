@@ -36,4 +36,14 @@ describe("Unit test for customer update use case", () => {
 
     expect(output).toEqual(input);
   });
+
+  it("should throw an error when customer not found", async () => {
+    const customerRepository = MockRepository();
+    customerRepository.find = jest.fn().mockReturnValue(Promise.resolve(null));
+    const customerUpdateUseCase = new UpdateCustomerUseCase(customerRepository);
+
+    expect(async () => {
+      await customerUpdateUseCase.execute(input);
+    }).rejects.toThrow("Customer not found");
+  });
 });

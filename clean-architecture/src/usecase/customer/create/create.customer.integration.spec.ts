@@ -1,28 +1,41 @@
-import CreateCustomerUseCase from "./create.customer.usecase";
+import { Sequelize } from "sequelize-typescript";
+import CustomerModel from "../../../infrastructure/customer/repository/sequelize/customer.model";
+import CustomerRepository from "../../../infrastructure/customer/repository/sequelize/customer.repository";
+import CustomerCreatedUseCase from "./create.customer.usecase";
 
 const input = {
-  name: "John Doe",
+  name: "Customer 1",
   address: {
-    street: "Street",
+    street: "Street 1",
     number: 123,
-    zip: "12345-678",
-    city: "City",
+    zip: "13330-250",
+    city: "São Paulo",
   },
 };
 
-const MockRepository = () => {
-  return {
-    find: jest.fn(),
-    findAll: jest.fn(),
-    create: jest.fn(),
-    update: jest.fn(),
-  };
-};
+describe("Integration test create customer use case", () => {
+  let sequelize: Sequelize;
 
-describe("Unit Test create customer use case", () => {
+  beforeEach(async () => {
+    sequelize = new Sequelize({
+      dialect: "sqlite",
+      storage: ":memory:",
+      logging: false,
+      sync: { force: true },
+    });
+    await sequelize.addModels([CustomerModel]);
+    await sequelize.sync();
+  });
+
+  afterEach(async () => {
+    await sequelize.close();
+  });
+
   it("should create a customer", async () => {
-    const customerRepository = MockRepository();
-    const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
+    const customerRepository = new CustomerRepository();
+    const customerCreateUseCase = new CustomerCreatedUseCase(
+      customerRepository
+    );
 
     const output = await customerCreateUseCase.execute(input);
 
@@ -31,16 +44,18 @@ describe("Unit Test create customer use case", () => {
       name: input.name,
       address: {
         street: input.address.street,
+        city: input.address.city,
         number: input.address.number,
         zip: input.address.zip,
-        city: input.address.city,
       },
     });
   });
 
   it("should throw an error when name is missing", async () => {
-    const customerRepository = MockRepository();
-    const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
+    const customerRepository = new CustomerRepository();
+    const customerCreateUseCase = new CustomerCreatedUseCase(
+      customerRepository
+    );
 
     const inputMissingName = {
       name: "",
@@ -51,14 +66,17 @@ describe("Unit Test create customer use case", () => {
         city: "São Paulo",
       },
     };
+
     await expect(
       customerCreateUseCase.execute(inputMissingName)
     ).rejects.toThrow("Name is required");
   });
 
   it("should throw an error street is missing", async () => {
-    const customerRepository = MockRepository();
-    const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
+    const customerRepository = new CustomerRepository();
+    const customerCreateUseCase = new CustomerCreatedUseCase(
+      customerRepository
+    );
 
     const inputMissingStreet = {
       name: "Customer 1",
@@ -76,7 +94,7 @@ describe("Unit Test create customer use case", () => {
   });
 
   it("should throw an error city is missing", async () => {
-    const customerRepository = MockRepository();
+    const customerRepository = new CustomerRepository();
     const customerCreateUseCase = new CustomerCreatedUseCase(
       customerRepository
     );
@@ -90,6 +108,7 @@ describe("Unit Test create customer use case", () => {
         city: "",
       },
     };
+
     await expect(
       customerCreateUseCase.execute(inputMissingCity)
     ).rejects.toThrow("City is required");
