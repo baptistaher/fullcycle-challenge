@@ -11,10 +11,12 @@ export default class ProductFactory {
   ): ProductInterface {
     switch (type) {
       case "a":
-        return new Product(uuid(), name, price);
+        const product = new Product(uuid(), name, price);
+        return product;
 
       case "b":
-        return new ProductB(uuid(), name, price);
+        const productB = new ProductB(uuid(), name, price);
+        return productB;
 
       default:
         throw new Error("Product type not supported");

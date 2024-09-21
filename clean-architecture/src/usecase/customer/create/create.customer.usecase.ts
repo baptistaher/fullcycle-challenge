@@ -1,5 +1,5 @@
 import CustomerRepositoryInterface from "../../../domain/customer/repository/customer-repository.interface";
-import { v4 as uuid } from "uuid";
+
 import {
   InputCreateCustomerDto,
   OutputCreateCustomerDto,
