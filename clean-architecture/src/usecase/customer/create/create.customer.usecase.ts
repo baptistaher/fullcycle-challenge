@@ -7,7 +7,7 @@ import {
 import CustomerFactory from "../../../domain/customer/factory/customer.factory";
 import Address from "../../../domain/customer/value-object/address";
 
-export default class CustomerCreatedUseCase {
+export default class CreateCustomerUseCase {
   private customerRepository: CustomerRepositoryInterface;
 
   constructor(customerRepository: CustomerRepositoryInterface) {

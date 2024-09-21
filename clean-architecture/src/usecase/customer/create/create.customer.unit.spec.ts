@@ -1,4 +1,4 @@
-import CustomerCreatedUseCase from "./create.customer.usecase";
+import CreateCustomerUseCase from "./create.customer.usecase";
 
 const input = {
   name: "John Doe",
@@ -22,9 +22,7 @@ const MockRepository = () => {
 describe("Unit Test create customer use case", () => {
   it("should create a customer", async () => {
     const customerRepository = MockRepository();
-    const customerCreateUseCase = new CustomerCreatedUseCase(
-      customerRepository
-    );
+    const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
 
     const output = await customerCreateUseCase.execute(input);
 
@@ -42,9 +40,7 @@ describe("Unit Test create customer use case", () => {
 
   it("should throw an error when name is missing", async () => {
     const customerRepository = MockRepository();
-    const customerCreateUseCase = new CustomerCreatedUseCase(
-      customerRepository
-    );
+    const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
 
     input.name = "";
 
@@ -55,9 +51,7 @@ describe("Unit Test create customer use case", () => {
 
   it("should throw an error street is missing", async () => {
     const customerRepository = MockRepository();
-    const customerCreateUseCase = new CustomerCreatedUseCase(
-      customerRepository
-    );
+    const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
 
     input.address.street = "";
 
