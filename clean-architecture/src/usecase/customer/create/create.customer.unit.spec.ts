@@ -77,9 +77,7 @@ describe("Unit Test create customer use case", () => {
 
   it("should throw an error city is missing", async () => {
     const customerRepository = MockRepository();
-    const customerCreateUseCase = new CustomerCreatedUseCase(
-      customerRepository
-    );
+    const customerCreateUseCase = new CreateCustomerUseCase(customerRepository);
 
     const inputMissingCity = {
       name: "Customer 1",
