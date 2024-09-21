@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import ProductModel from "../../../infrastructure/product/repository/sequelize/product.model";
 import ProductRepository from "../../../infrastructure/product/repository/sequelize/product.repository";
-import ProductCreatedUseCase from "./create.product.usecase";
+import CreateProductUseCase from "./create.product.usecase";
 
 describe("Integration test create a product use case", () => {
   let sequelize: Sequelize;
@@ -25,7 +25,7 @@ describe("Integration test create a product use case", () => {
   it("should create a product A", async () => {
     const productRepository = new ProductRepository();
 
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
 
     const input = {
       type: "a",
@@ -43,7 +43,7 @@ describe("Integration test create a product use case", () => {
 
   it("should create a product B", async () => {
     const productRepository = new ProductRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "b",
       name: "Product 1",
@@ -60,7 +60,7 @@ describe("Integration test create a product use case", () => {
 
   it("should throw an error when name is missing", async () => {
     const productRepository = new ProductRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "a",
       name: "",
@@ -73,7 +73,7 @@ describe("Integration test create a product use case", () => {
 
   it("should throw an error when price is less than zero", async () => {
     const productRepository = new ProductRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "a",
       name: "Product 1",
@@ -86,7 +86,7 @@ describe("Integration test create a product use case", () => {
 
   it("should throw an error when type is missing", async () => {
     const productRepository = new ProductRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "",
       name: "Product 1",

@@ -1,4 +1,4 @@
-import ProductCreatedUseCase from "./create.product.usecase";
+import CreateProductUseCase from "./create.product.usecase";
 
 // const input = {
 //   type: "a",
@@ -18,7 +18,7 @@ const MockRepository = () => {
 describe("Unit Test create product  use case", () => {
   it("should create a product A", async () => {
     const productRepository = MockRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "a",
       name: "Product 1",
@@ -36,7 +36,7 @@ describe("Unit Test create product  use case", () => {
 
   it("should create a product B", async () => {
     const productRepository = MockRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "b",
       name: "Product 1",
@@ -53,7 +53,7 @@ describe("Unit Test create product  use case", () => {
 
   it("should throw an error when name is missing", async () => {
     const productRepository = MockRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "a",
       name: "",
@@ -67,7 +67,7 @@ describe("Unit Test create product  use case", () => {
 
   it("should throw an error when price is less than zero", async () => {
     const productRepository = MockRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "a",
       name: "Product 1",
@@ -81,7 +81,7 @@ describe("Unit Test create product  use case", () => {
 
   it("should throw an error when type is missing", async () => {
     const productRepository = MockRepository();
-    const productCreateUseCase = new ProductCreatedUseCase(productRepository);
+    const productCreateUseCase = new CreateProductUseCase(productRepository);
     const input = {
       type: "",
       name: "Product 1",

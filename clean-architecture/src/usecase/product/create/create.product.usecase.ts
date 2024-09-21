@@ -6,7 +6,7 @@ import {
   OutputCreateProductDto,
 } from "./create.product.dto";
 
-export default class ProductCreatedUseCase {
+export default class CreateProductUseCase {
   private productRepository: ProductRepositoryInterface;
 
   constructor(productRepository: ProductRepositoryInterface) {

@@ -5,7 +5,7 @@ import ListCustomerUseCase from "../../../usecase/customer/list/list.customer.us
 import CustomerPresenter from "../presenters/customer.presenter";
 export const customerRoute = express.Router();
 
-customerRoute.post("/", async (req: Request, res, Response) => {
+customerRoute.post("/", async (req: Request, res: Response) => {
   const useCase = new CreateCustomerUseCase(new CustomerRepository());
 
   try {
