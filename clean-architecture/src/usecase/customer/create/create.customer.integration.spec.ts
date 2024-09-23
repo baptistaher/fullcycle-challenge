@@ -69,7 +69,13 @@ describe("Integration test create customer use case", () => {
 
     await expect(
       customerCreateUseCase.execute(inputMissingName)
-    ).rejects.toThrow("Name is required");
+    ).rejects.toThrow(
+      expect.objectContaining({
+        errors: expect.arrayContaining([
+          expect.objectContaining({ message: "Name is required" }),
+        ]),
+      })
+    );
   });
 
   it("should throw an error street is missing", async () => {
