@@ -1,15 +1,17 @@
+import Id from "../value-object/id.value-object";
+
 export default class BaseEntity {
-  private _id: string;
+  private _id: Id;
   private _createdAt: Date;
   private _updatedAt: Date;
 
-  constructor(id?: string) {
-    this._id = id;
+  constructor(id?: Id) {
+    this._id = id || new Id();
     this._createdAt = new Date();
     this._updatedAt = new Date();
   }
 
-  get id(): string {
+  get id(): Id {
     return this._id;
   }
 
