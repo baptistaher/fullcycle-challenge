@@ -39,4 +39,10 @@ export default class Order extends BaseEntity {
   }
 
   // todo: total
+
+  get total(): number {
+    return this._products.reduce((total, product) => {
+      return total + product.salesPrice;
+    }, 0);
+  }
 }
