@@ -18,6 +18,7 @@ export default class AddClientUseCase {
       id: new Id(input.id) || new Id(),
       name: input.name,
       email: input.email,
+      document: input.document,
       address: input.address,
     };
 

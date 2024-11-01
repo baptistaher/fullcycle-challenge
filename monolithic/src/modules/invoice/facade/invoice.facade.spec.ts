@@ -31,6 +31,7 @@ describe("InvoiceFacade test", () => {
     const input = {
       name: "Invoice 1",
       document: "12345678901",
+      email: "Email 1",
       street: "Street 1",
       number: "123",
       complement: "Complement 1",
@@ -55,6 +56,7 @@ describe("InvoiceFacade test", () => {
 
     expect(result.id).toBeDefined();
     expect(result.name).toBe(input.name);
+    expect(result.email).toBe(input.email);
     expect(result.city).toBe(input.city);
     expect(result.document).toBe(input.document);
     expect(result.street).toBe(input.street);
@@ -84,8 +86,8 @@ describe("InvoiceFacade test", () => {
     await InvoiceModel.create({
       id: "1",
       name: "Invoice 1",
+      email: "Email 1",
       document: "document 1",
-
       items: "items 1",
       createdAt: createDate,
       updatedAt: createDate,
@@ -120,6 +122,7 @@ describe("InvoiceFacade test", () => {
 
     expect(result.id).toBe("1");
     expect(result.name).toBe("Invoice 1");
+    expect(result.email).toBe("Email 1");
     expect(result.document).toBe("document 1");
     expect(result.address.street).toBe("street 1");
     expect(result.address.number).toBe("number 1");

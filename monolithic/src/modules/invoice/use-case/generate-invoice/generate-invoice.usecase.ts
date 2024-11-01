@@ -17,6 +17,7 @@ export default class GenerateInvoiceUseCase implements UseCaseInterface {
     const props = {
       name: input.name,
       document: input.document,
+      email: input.email,
       address: new Address({
         street: input.street,
         number: input.number,
@@ -40,6 +41,7 @@ export default class GenerateInvoiceUseCase implements UseCaseInterface {
     return {
       id: invoice.id.id,
       name: invoice.name,
+      email: invoice.email,
       document: invoice.document,
       street: invoice.address.street,
       number: invoice.address.number,

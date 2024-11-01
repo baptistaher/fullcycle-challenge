@@ -6,6 +6,7 @@ export interface FindInvoiceUseCaseOutputDto {
   id: string;
   name: string;
   document: string;
+  email: string;
   address: {
     street: string;
     number: string;

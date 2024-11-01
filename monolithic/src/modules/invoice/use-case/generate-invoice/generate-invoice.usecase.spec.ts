@@ -7,6 +7,7 @@ import GenerateInvoiceUseCase from "./generate-invoice.usecase";
 const invoice = new Invoice({
   id: new Id("1"),
   name: "Invoice 1",
+  email: "Email 1",
   document: "12345678901",
   address: new Address({
     street: "Street 1",
@@ -45,6 +46,7 @@ describe("Generate invoice use-case unit test", () => {
     const input = {
       name: "Invoice 1",
       document: "12345678901",
+      email: "Email 1",
       street: "Street 1",
       number: "123",
       complement: "Complement 1",
@@ -70,6 +72,7 @@ describe("Generate invoice use-case unit test", () => {
     expect(invoiceRepository.generate).toHaveBeenCalled();
     expect(result.id).toBe("1");
     expect(result.name).toBe("Invoice 1");
+    expect(result.email).toBe("Email 1");
     expect(result.document).toBe("12345678901");
     expect(result.street).toBe("Street 1");
     expect(result.number).toBe("123");

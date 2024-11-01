@@ -16,6 +16,7 @@ export default class FindInvoiceUseCase implements UseCaseInterface {
     return {
       id: invoice.id.id,
       name: invoice.name,
+      email: invoice.email,
       document: invoice.document,
       address: {
         street: invoice.address.street,

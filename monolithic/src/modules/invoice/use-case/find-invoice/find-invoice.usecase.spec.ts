@@ -7,6 +7,7 @@ import FindInvoiceUseCase from "./find-invoice.usecase";
 const invoice = new Invoice({
   id: new Id("1"),
   name: "Invoice 1",
+  email: "Email 1",
   document: "12345678901",
   address: new Address({
     street: "Street 1",
@@ -51,6 +52,7 @@ describe("Find all invoice use-case unit test ", () => {
     expect(invoiceRepository.find).toHaveBeenCalled();
     expect(result.id).toBe("1");
     expect(result.name).toBe("Invoice 1");
+    expect(result.email).toBe("Email 1");
     expect(result.document).toBe("12345678901");
     expect(result.address.street).toBe("Street 1");
     expect(result.address.number).toBe("123");

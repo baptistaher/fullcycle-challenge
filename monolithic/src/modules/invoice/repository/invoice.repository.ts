@@ -24,6 +24,7 @@ export default class InvoiceRepository implements InvoiceGateway {
       id: new Id(invoice.id),
       name: invoice.name,
       document: invoice.document,
+      email: invoice.email,
       address: new Address(invoice.address),
       items: invoice.items.map(
         (item) =>
@@ -41,6 +42,7 @@ export default class InvoiceRepository implements InvoiceGateway {
     const newInvoice = await InvoiceModel.create({
       id: input.id.id,
       name: input.name,
+      email: input.email,
       document: input.document,
       createdAt: input.createdAt,
     });
@@ -70,6 +72,7 @@ export default class InvoiceRepository implements InvoiceGateway {
       id: new Id(newInvoice.id),
       name: newInvoice.name,
       document: newInvoice.document,
+      email: input.email,
       address: new Address(address),
       items: items.map(
         (item) =>

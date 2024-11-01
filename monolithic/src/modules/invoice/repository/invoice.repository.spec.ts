@@ -33,6 +33,7 @@ describe("Invoice Repository test", () => {
     const input = new Invoice({
       id: new Id("1"),
       name: "Invoice 1",
+      email: "email 1",
       document: "document 1",
       address: new Address({
         street: "street 1",
@@ -60,6 +61,7 @@ describe("Invoice Repository test", () => {
 
     expect(result.id.id).toBe("1");
     expect(result.name).toBe("Invoice 1");
+    expect(result.email).toBe("email 1");
     expect(result.document).toBe("document 1");
     expect(result.address.street).toBe("street 1");
     expect(result.address.number).toBe("number 1");
@@ -86,6 +88,7 @@ describe("Invoice Repository test", () => {
     await InvoiceModel.create({
       id: "1",
       name: "Invoice 1",
+      email: "email 1",
       document: "document 1",
       addressId: "1",
       items: "items 1",
@@ -122,6 +125,7 @@ describe("Invoice Repository test", () => {
 
     expect(result.id.id).toBe("1");
     expect(result.name).toBe("Invoice 1");
+    expect(result.email).toBe("email 1");
     expect(result.document).toBe("document 1");
     expect(result.address.street).toBe("street 1");
     expect(result.address.number).toBe("number 1");

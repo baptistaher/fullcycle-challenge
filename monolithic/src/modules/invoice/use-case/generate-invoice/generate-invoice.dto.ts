@@ -1,5 +1,7 @@
 export interface GenerateInvoiceUseCaseInputDto {
   name: string;
+
+  email: string;
   document: string;
   street: string;
   number: string;
@@ -17,6 +19,8 @@ export interface GenerateInvoiceUseCaseInputDto {
 export interface GenerateInvoiceUseCaseOutputDto {
   id: string;
   name: string;
+
+  email: string;
   document: string;
 
   street: string;

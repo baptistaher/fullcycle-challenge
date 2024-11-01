@@ -24,6 +24,9 @@ export class InvoiceModel extends Model {
   name: string;
 
   @Column({ allowNull: false })
+  email: string;
+
+  @Column({ allowNull: false })
   document: string;
 
   // @ForeignKey(() => AddressModel) // Explicit foreign key

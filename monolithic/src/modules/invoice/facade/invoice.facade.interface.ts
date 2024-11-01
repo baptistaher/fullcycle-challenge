@@ -1,5 +1,7 @@
 export interface GenerateInvoiceFacadeInputDto {
   name: string;
+
+  email: string;
   document: string;
   street: string;
   number: string;
@@ -17,6 +19,7 @@ export interface GenerateInvoiceFacadeInputDto {
 export interface GenerateInvoiceFacadeOutputDto {
   id: string;
   name: string;
+  email: string;
   document: string;
   street: string;
   number: string;
@@ -39,6 +42,7 @@ export interface FindInvoiceInputDto {
 export interface FindInvoiceOutputDto {
   id: string;
   name: string;
+  email: string;
   document: string;
   address: {
     street: string;
