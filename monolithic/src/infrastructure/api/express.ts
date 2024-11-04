@@ -3,6 +3,7 @@ import { Sequelize } from "sequelize-typescript";
 import pinoHttp from "pino-http";
 import { clientRoute } from "./routers/client.route";
 import pino from "pino";
+import { ClientModel } from "../client-adm/repository/sequelize/client.model";
 
 export const app: Express = express();
 app.use(pinoHttp());
@@ -22,10 +23,11 @@ async function setupDb() {
   sequelize = new Sequelize({
     dialect: "sqlite",
     storage: ":memory:",
-    logging: (msg) => logger.info(msg),
-    // sync: { force: true },
+    logging: (msg) => logger.info(msg), // Use a custom function to log
+    // logging: false,
   });
 
+  await sequelize.addModels([ClientModel]);
   await sequelize.sync();
 }
 

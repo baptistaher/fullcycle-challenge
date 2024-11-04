@@ -1,9 +1,9 @@
 import { Sequelize } from "sequelize-typescript";
 import { ClientModel } from "./client.model";
 import ClientRepository from "./client.repository";
-import Client from "../domain/client.entity";
-import Id from "../../@shared/domain/value-object/id.value-object";
-import Address from "../../@shared/domain/value-object/address";
+import Id from "../../../../modules/@shared/domain/value-object/id.value-object";
+import Client from "../../../../modules/client-adm/domain/client.entity";
+import Address from "../../../../modules/@shared/domain/value-object/address";
 
 describe("ClientRepository test", () => {
   let sequelize: Sequelize;
