@@ -8,9 +8,11 @@ export default class ClientAdmFacadeFactory {
     const repository = new ClientRepository();
     const findUseCase = new FindClientUseCase(repository);
     const addUseCase = new AddClientUseCase(repository);
+    const findAllUseCase = new FindClientUseCase(repository);
     const facade = new ClientAdmFacade({
       addUseCase: addUseCase,
       findUseCase: findUseCase,
+      findAllUseCase: findAllUseCase,
     });
 
     return facade;

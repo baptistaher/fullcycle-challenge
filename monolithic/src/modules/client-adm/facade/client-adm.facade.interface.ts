@@ -1,4 +1,5 @@
 import Address from "../../@shared/domain/value-object/address";
+import Client from "../domain/client.entity";
 
 export interface AddClientFacadeInputDto {
   id?: string;
@@ -25,4 +26,10 @@ export interface FindClientFacadeOutputDto {
 export default interface ClientAdmFacadeInterface {
   add(input: AddClientFacadeInputDto): Promise<void>;
   find(input: FindClientFacadeInputDto): Promise<FindClientFacadeOutputDto>;
+}
+
+export interface FindAllClientInputDto {}
+
+export interface FindAllClientOutputDto {
+  clients: Client[];
 }

@@ -5,12 +5,20 @@ import { Sequelize } from "sequelize";
 // import { Sequelize } from "sequelize-typescript";
 import pino from "pino";
 
-const logger = pino({
-  transport: {
-    target: "pino-pretty",
-    options: { colorize: true },
-  },
-});
+// const transport = pino.transport({
+//   target: "pino-pretty",
+//   options: { colorize: true },
+// });
+
+// export const logger = pino({
+//   transport,
+// });
+
+// export const closeLogger = async () => {
+//   if (transport) {
+//     await transport.close();
+//   }
+// };
 
 export const migrator = (sequelize: Sequelize) => {
   return new Umzug({
@@ -25,11 +33,12 @@ export const migrator = (sequelize: Sequelize) => {
     },
     context: sequelize,
     storage: new SequelizeStorage({ sequelize }),
-    logger: {
-      info: logger.info.bind(logger),
-      error: logger.error.bind(logger),
-      warn: logger.warn.bind(logger),
-      debug: logger.debug.bind(logger),
-    },
+    logger: console,
+    // logger: {
+    //   info: logger.info.bind(logger),
+    //   error: logger.error.bind(logger),
+    //   warn: logger.warn.bind(logger),
+    //   debug: logger.debug.bind(logger),
+    // },
   });
 };

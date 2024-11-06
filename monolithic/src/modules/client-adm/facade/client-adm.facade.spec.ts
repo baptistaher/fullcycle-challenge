@@ -8,6 +8,7 @@ import ClientAdmFacadeFactory from "../factory/client-adm.facade.factory";
 import Address from "../../@shared/domain/value-object/address";
 import { ClientModel } from "../../../infrastructure/client-adm/repository/sequelize/client.model";
 import ClientRepository from "../../../infrastructure/client-adm/repository/sequelize/client.repository";
+import ListClientUseCase from "../usecase/list-client/list-client.usecase";
 
 describe("ClientAdmFacade test", () => {
   let sequelize: Sequelize;
@@ -75,9 +76,12 @@ describe("ClientAdmFacade test", () => {
     const repository = new ClientRepository();
     const findUseCase = new FindClientUseCase(repository);
     const addUseCase = new AddClientUseCase(repository);
+    const findAllUseCase = new ListClientUseCase(repository);
+
     const facade = new ClientAdmFacade({
       addUseCase: addUseCase,
       findUseCase: findUseCase,
+      findAllUseCase: findAllUseCase,
     });
 
     // bad practice
