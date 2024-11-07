@@ -7,6 +7,7 @@ import {
 } from "sequelize-typescript";
 
 @Table({
+  modelName: "product-adm-table",
   tableName: "products",
   timestamps: false,
 })

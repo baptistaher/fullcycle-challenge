@@ -1,10 +1,11 @@
-import Id from "../../@shared/domain/value-object/id.value-object";
-import Product from "../domain/product.entity";
-import ProductGateway from "../gateway/product.gateway";
+import Id from "../../../../modules/@shared/domain/value-object/id.value-object";
+import Product from "../../../../modules/product-adm/domain/product.entity";
+import ProductGateway from "../../../../modules/product-adm/gateway/product.gateway";
 import { ProductModel } from "./product.model";
 
 export default class ProductRepository implements ProductGateway {
   async add(product: Product): Promise<void> {
+    console.log(product);
     await ProductModel.create({
       id: product.id.id,
       name: product.name,
@@ -14,7 +15,6 @@ export default class ProductRepository implements ProductGateway {
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     });
-    // throw new Error("Method not implemented.");
   }
   async find(id: string): Promise<Product> {
     const product = await ProductModel.findOne({
@@ -36,6 +36,5 @@ export default class ProductRepository implements ProductGateway {
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     });
-    // throw new Error("Method not implemented.");
   }
 }

@@ -24,7 +24,7 @@ class OutputClientMapper {
   static toOutput(clients: Client[]): ListClientOutputDto {
     return {
       clients: clients.map((client) => ({
-        id: client.id.toString(),
+        id: client.id.id,
         name: client.name,
         email: client.email,
         document: client.document,

@@ -13,9 +13,18 @@ productAdmRoute.post("/", async (req: Request, res: Response) => {
       stock: req.body.stock,
     };
     const result = await facade.addProduct(input);
-    res.status(200).send(result);
+    return res.status(200).send(result);
   } catch (error) {
-    res.status(500).send(error);
+    console.log(error);
+    return res.status(500).send(error);
   }
-  // res.status(200).send("Hello World!");
+});
+
+productAdmRoute.get("/:id", async (req: Request, res: Response) => {
+  try {
+    const result = await facade.checkStock({ productId: req.params.id });
+    return res.status(200).send(result);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
 });

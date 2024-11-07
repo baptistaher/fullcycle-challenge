@@ -9,10 +9,6 @@ const facade = ClientAdmFacadeFactory.create();
 
 clientRoute.post("/", async (req: Request, res: Response) => {
   try {
-    // const clientFacade = new ClientAdmFacadeFactory();
-
-    // req.log.info("Starting new Client");
-
     const client: AddClientInputDto = {
       name: req.body.name,
       email: req.body.email,
@@ -29,14 +25,25 @@ clientRoute.post("/", async (req: Request, res: Response) => {
 
     const output = await facade.add(client);
 
-    res.status(200).send(output);
+    return res.status(200).send(output);
   } catch (error) {
-    // req.log.error(error);
     res.status(500).send(error);
   }
 });
 
+clientRoute.get("/", async (_: Request, res: Response) => {
+  console.log("Get all Client");
+  try {
+    const result = await facade.findAll({});
+    return res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+});
+
 clientRoute.get("/:id", async (req: Request, res: Response) => {
+  console.log("Get Client");
   try {
     const input: FindClientFacadeInputDto = {
       id: req.params.id,

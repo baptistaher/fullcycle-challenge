@@ -99,7 +99,6 @@ export default class PlaceOrderUseCase implements UseCaseInterface {
           })
         : null;
 
-    console.log(invoice);
     // change order status to approved
     payment.status === "approved" && order.approved();
     this._repository.addOrder(order);

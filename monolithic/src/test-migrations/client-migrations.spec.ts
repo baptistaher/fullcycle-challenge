@@ -32,7 +32,9 @@ describe("Client tests", () => {
     migration = migrator(sequelize);
     await migration.up();
 
-    server = app.listen();
+    server = await new Promise<http.Server>((resolve) => {
+      const s = app.listen(() => resolve(s));
+    });
   });
 
   afterEach(async () => {
@@ -42,7 +44,22 @@ describe("Client tests", () => {
     // closeLogger();
     await migration.down();
     await sequelize.close();
-    server.close(); // Ensure server is closed  });
+    // server.close(); // Ensure server is closed  });
+
+    if (server) {
+      server.close(() => {
+        server.unref();
+      });
+    }
+
+    // if (server) {
+    //   await new Promise<void>((resolve, reject) => {
+    //     server.close((err) => {
+    //       if (err) return reject(err);
+    //       resolve();
+    //     });
+    //   });
+    // }
   });
   it("should create a client", async () => {
     const response = await request(app).post("/client").send({

@@ -49,6 +49,7 @@ export default class ClientRepository implements ClientGateway {
 
   async findAll(): Promise<Client[]> {
     const clients = await ClientModel.findAll();
+
     return clients.map((client) => {
       return new Client({
         id: new Id(client.id),
@@ -59,7 +60,6 @@ export default class ClientRepository implements ClientGateway {
           client.street,
           client.number,
           client.complement,
-
           client.city,
           client.state,
           client.zipCode

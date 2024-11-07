@@ -1,9 +1,10 @@
 import Address from "../../../@shared/domain/value-object/address";
+import Id from "../../../@shared/domain/value-object/id.value-object";
 import ClientAdmFacadeFactory from "../../factory/client-adm.facade.factory";
 import ListClientUseCase from "./list-client.usecase";
 
 const client1 = {
-  id: "1",
+  id: new Id("1"),
   name: "Client 1",
   email: "a@a.com",
   document: "document 1",
@@ -18,7 +19,7 @@ const client1 = {
 };
 
 const client2 = {
-  id: "2",
+  id: new Id("2"),
   name: "Client 2",
   email: "b@b.com",
   document: "document 2",
@@ -47,14 +48,12 @@ describe("List clients Unit Test", () => {
 
     const output = await useCase.execute({});
 
-    console.log(output);
-
     expect(output.clients.length).toBe(2);
-    expect(output.clients[0].id).toEqual(client1.id);
+    expect(output.clients[0].id).toEqual(client1.id.id);
     expect(output.clients[0].name).toEqual(client1.name);
     expect(output.clients[0].email).toEqual(client1.email);
     expect(output.clients[0].address).toEqual(client1.address);
-    expect(output.clients[1].id).toEqual(client2.id);
+    expect(output.clients[1].id).toEqual(client2.id.id);
     expect(output.clients[1].name).toEqual(client2.name);
     expect(output.clients[1].email).toEqual(client2.email);
     expect(output.clients[1].address).toEqual(client2.address);
