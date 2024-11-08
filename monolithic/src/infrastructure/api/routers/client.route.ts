@@ -1,13 +1,16 @@
 import express, { Request, Response } from "express";
 import { AddClientInputDto } from "../../../modules/client-adm/usecase/add-client/add-client.usecase.dto";
 import Address from "../../../modules/@shared/domain/value-object/address";
-import ClientAdmFacadeFactory from "../../../modules/client-adm/factory/client-adm.facade.factory";
 import { FindClientFacadeInputDto } from "../../../modules/client-adm/facade/client-adm.facade.interface";
+import AddClientUseCase from "../../../modules/client-adm/usecase/add-client/add-client.usecase";
+import ListClientUseCase from "../../../modules/client-adm/usecase/list-client/list-client.usecase";
+import { FindClientUseCase } from "../../../modules/client-adm/usecase/find-client/find-client.usecase";
+import ClientRepository from "../../../modules/client-adm/repository/client.repository";
 export const clientRoute = express.Router();
 
-const facade = ClientAdmFacadeFactory.create();
-
 clientRoute.post("/", async (req: Request, res: Response) => {
+  const repository = new ClientRepository();
+  const useCase = new AddClientUseCase(repository);
   try {
     const client: AddClientInputDto = {
       name: req.body.name,
@@ -23,7 +26,7 @@ clientRoute.post("/", async (req: Request, res: Response) => {
       ),
     };
 
-    const output = await facade.add(client);
+    const output = await useCase.execute(client);
 
     return res.status(200).send(output);
   } catch (error) {
@@ -32,9 +35,11 @@ clientRoute.post("/", async (req: Request, res: Response) => {
 });
 
 clientRoute.get("/", async (_: Request, res: Response) => {
-  console.log("Get all Client");
+  const repository = new ClientRepository();
+  const useCase = new ListClientUseCase(repository);
+
   try {
-    const result = await facade.findAll({});
+    const result = await useCase.execute({});
     return res.status(200).send(result);
   } catch (error) {
     console.log(error);
@@ -43,14 +48,16 @@ clientRoute.get("/", async (_: Request, res: Response) => {
 });
 
 clientRoute.get("/:id", async (req: Request, res: Response) => {
-  console.log("Get Client");
   try {
+    const repository = new ClientRepository();
+    const useCase = new FindClientUseCase(repository);
+
     const input: FindClientFacadeInputDto = {
       id: req.params.id,
     };
 
-    const result = await facade.find(input);
-    res.status(200).send(result);
+    const result = await useCase.execute(input);
+    return res.status(200).send(result);
   } catch (error) {
     if (error instanceof Error) {
       if (error.message === "Client not found") {

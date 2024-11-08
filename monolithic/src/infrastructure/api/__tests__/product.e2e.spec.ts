@@ -1,16 +1,17 @@
 import express, { Express } from "express";
-import { productAdmRoute } from "../infrastructure/api/routers/product-adm.route";
 import { Sequelize } from "sequelize-typescript";
 import { Umzug } from "umzug";
-import { ProductModel as ProductAdmModel } from "../infrastructure/product-adm/repository/sequelize/product.model";
-import { migrator } from "./config-migrations/migrator";
+// import { ProductModel as ProductAdmModel } from "../../../modules/product-adm/repository/product.model";
+import { migrator } from "../../../test-migrations/config-migrations/migrator";
 import http from "http";
 import request from "supertest";
+import { productRoute } from "../routers/product.route";
+import { ProductModel } from "../../../modules/product-adm/repository/product.model";
 
 describe("Products test", () => {
   const app: Express = express();
   app.use(express.json());
-  app.use("/product-adm", productAdmRoute);
+  app.use("/product", productRoute);
 
   let server: http.Server;
 
@@ -26,7 +27,7 @@ describe("Products test", () => {
         logging: false,
       });
 
-      await sequelize.addModels([ProductAdmModel]);
+      await sequelize.addModels([ProductModel]);
       migration = migrator(sequelize);
       await migration.up();
 
@@ -50,19 +51,10 @@ describe("Products test", () => {
         server.unref();
       });
     }
-
-    // if (server) {
-    //   await new Promise<void>((resolve, reject) => {
-    //     server.close((err) => {
-    //       if (err) return reject(err);
-    //       resolve();
-    //     });
-    //   });
-    // }
   });
 
   it("should create a product adm", async () => {
-    const response = await request(app).post("/product-adm").send({
+    const response = await request(app).post("/product").send({
       name: "Product 1",
       description: "Product 1 description",
       purchasePrice: 100,
@@ -70,5 +62,10 @@ describe("Products test", () => {
     });
 
     expect(response.status).toBe(200);
+    expect(response.body.id).toBeDefined();
+    expect(response.body.name).toBe("Product 1");
+    expect(response.body.description).toBe("Product 1 description");
+    expect(response.body.purchasePrice).toBe(100);
+    expect(response.body.stock).toBe(10);
   });
 });

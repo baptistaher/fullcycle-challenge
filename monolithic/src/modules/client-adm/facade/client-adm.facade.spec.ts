@@ -6,9 +6,11 @@ import ClientAdmFacade from "./client-adm.facade";
 import { FindClientUseCase } from "../usecase/find-client/find-client.usecase";
 import ClientAdmFacadeFactory from "../factory/client-adm.facade.factory";
 import Address from "../../@shared/domain/value-object/address";
-import { ClientModel } from "../../../infrastructure/client-adm/repository/sequelize/client.model";
-import ClientRepository from "../../../infrastructure/client-adm/repository/sequelize/client.repository";
+// import { ClientModel } from "../../../infrastructure/client-adm/repository/sequelize/client.model";
+// import ClientRepository from "../../../infrastructure/client-adm/repository/sequelize/client.repository";
 import ListClientUseCase from "../usecase/list-client/list-client.usecase";
+import { ClientModel } from "../repository/client.model";
+import ClientRepository from "../repository/client.repository";
 
 describe("ClientAdmFacade test", () => {
   let sequelize: Sequelize;

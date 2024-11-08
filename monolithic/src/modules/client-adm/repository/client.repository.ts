@@ -1,8 +1,7 @@
-import Address from "../../../../modules/@shared/domain/value-object/address";
-import Id from "../../../../modules/@shared/domain/value-object/id.value-object";
-import Client from "../../../../modules/client-adm/domain/client.entity";
-import ClientGateway from "../../../../modules/client-adm/gateway/client.gateway";
-
+import Address from "../../@shared/domain/value-object/address";
+import Id from "../../@shared/domain/value-object/id.value-object";
+import Client from "../domain/client.entity";
+import ClientGateway from "../gateway/client.gateway";
 import { ClientModel } from "./client.model";
 
 export default class ClientRepository implements ClientGateway {

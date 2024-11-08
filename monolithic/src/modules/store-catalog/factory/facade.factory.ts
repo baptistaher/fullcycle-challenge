@@ -1,5 +1,5 @@
 import StoreCatalogFacade from "../facade/store-catalog.facade";
-import ProductRepository from "../../../infrastructure/product/repository/sequelize/product.repository";
+import ProductRepository from "../repository/product.repository";
 import FindAllProductsUseCase from "../usecase/find-all-produtcs/find-all-products.usecase";
 import FindProductUseCase from "../usecase/find-products/find-product.usecase";
 

@@ -1,11 +1,11 @@
 import express, { Express } from "express";
-import { clientRoute } from "../infrastructure/api/routers/client.route";
-// import { Sequelize } from "sequelize";
+import { clientRoute } from "../routers/client.route";
+import { migrator } from "../../../test-migrations/config-migrations/migrator";
 import http from "http";
 import { Sequelize } from "sequelize-typescript";
 import { Umzug } from "umzug";
-import { ClientModel } from "../infrastructure/client-adm/repository/sequelize/client.model";
-import { migrator } from "./config-migrations/migrator";
+import { ClientModel } from "../../../modules/client-adm/repository/client.model";
+
 import request from "supertest";
 
 describe("Client tests", () => {
@@ -25,7 +25,6 @@ describe("Client tests", () => {
       dialect: "sqlite",
       storage: ":memory:",
       logging: false,
-      // models
     });
 
     await sequelize.addModels([ClientModel]);
