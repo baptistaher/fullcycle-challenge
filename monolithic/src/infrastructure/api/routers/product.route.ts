@@ -5,7 +5,6 @@ import AddProductUseCase from "../../../modules/product-adm/usecase/add-product/
 import ProductRepository from "../../../modules/product-adm/repository/product.repository";
 export const productRoute = express.Router();
 
-// const facade = ProductAdmFacadeFactory.create();
 productRoute.post("/", async (req: Request, res: Response) => {
   const repository = new ProductRepository();
   const useCase = new AddProductUseCase(repository);
@@ -14,12 +13,12 @@ productRoute.post("/", async (req: Request, res: Response) => {
       name: req.body.name,
       description: req.body.description,
       purchasePrice: req.body.purchasePrice,
+      salesPrice: req.body.salesPrice,
       stock: req.body.stock,
     };
     const result = await useCase.execute(input);
     return res.status(200).send(result);
   } catch (error) {
-    console.log(error);
     return res.status(500).send(error);
   }
 });

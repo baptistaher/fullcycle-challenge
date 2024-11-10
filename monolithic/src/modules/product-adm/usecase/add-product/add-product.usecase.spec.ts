@@ -18,6 +18,7 @@ describe("Add Product use-case unit test", () => {
       name: "Product 1",
       description: "Product 1 description",
       purchasePrice: 100,
+      salesPrice: 59,
       stock: 10,
     };
     const result = await useCase.execute(input);

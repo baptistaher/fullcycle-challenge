@@ -1,7 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 
 import type { MigrationFn } from "umzug";
-import { sequelize } from "../../infrastructure/api/express";
 
 export const up: MigrationFn<Sequelize> = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().createTable("clients", {

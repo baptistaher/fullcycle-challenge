@@ -8,7 +8,7 @@ import request from "supertest";
 import { productRoute } from "../routers/product.route";
 import { ProductModel } from "../../../modules/product-adm/repository/product.model";
 
-describe("Products test", () => {
+describe("Products test E2E", () => {
   const app: Express = express();
   app.use(express.json());
   app.use("/product", productRoute);
