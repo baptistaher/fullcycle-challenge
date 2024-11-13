@@ -1,55 +1,15 @@
-import express, { Express } from "express";
-import { Sequelize } from "sequelize-typescript";
-import { Umzug } from "umzug";
-import http from "http";
-import { InvoiceModel } from "../../modules/invoice/repository/invoice.model";
-import { InvoiceItemsModel } from "../../modules/invoice/repository/invoice-items.model";
-import { migrator } from "../config-migrations/migrator";
+import InvoiceFacadeFactory from "../../../modules/invoice/factory/invoice.factory";
+import { app, sequelize } from "../express";
+
 import request from "supertest";
-import InvoiceFacadeFactory from "../../modules/invoice/factory/invoice.factory";
-import { invoiceRoute } from "../../infrastructure/api/routers/invoice.route";
-import { AddressModel } from "../../modules/invoice/repository/address.model";
 
-describe("Invoice Migration Test", () => {
-  const app: Express = express();
-
-  app.use(express.json());
-  app.use("/invoice", invoiceRoute);
-
-  let server: http.Server;
-
-  let sequelize: Sequelize;
-
-  let migration: Umzug<any>;
-
+describe("Invoice test E2E", () => {
   beforeEach(async () => {
-    sequelize = new Sequelize({
-      dialect: "sqlite",
-      storage: ":memory:",
-      logging: false,
-    });
-
-    await sequelize.addModels([InvoiceModel, InvoiceItemsModel, AddressModel]);
     await sequelize.sync({ force: true });
-    migration = migrator(sequelize);
-    await migration.up();
-
-    server = await new Promise<http.Server>((resolve) => {
-      const s = app.listen(() => resolve(s));
-    });
   });
 
   afterEach(async () => {
-    if (!migration || !sequelize) return;
-
-    migration = migrator(sequelize);
-
-    await migration.down();
     await sequelize.close();
-
-    if (server) {
-      server.close();
-    }
   });
 
   it("should find a invoice", async () => {

@@ -15,6 +15,7 @@ import { ProductModel as ProductAdmModel } from "../../../modules/product-adm/re
 import { ClientModel } from "../../../modules/client-adm/repository/client.model";
 import { ProductModel as StoreCatalogProductModel } from "../../../modules/store-catalog/repository/product.model";
 import { TransactionModel } from "../../../modules/payment/repository/transaction.model";
+import { InvoiceModel } from "../../../modules/invoice/repository/invoice.model";
 // import StoreCatalogFacadeFactory from "../../../modules/store-catalog/factory/facade.factory";
 describe("Checkout test E2E", () => {
   const app: Express = express();
@@ -44,6 +45,7 @@ describe("Checkout test E2E", () => {
         OrderModel,
         CheckoutModel,
         TransactionModel,
+        InvoiceModel,
       ]);
       migration = migrator(sequelize);
       await migration.up();
@@ -124,6 +126,8 @@ describe("Checkout test E2E", () => {
     };
 
     const response = await request(app).post("/checkout").send(inputDto);
+
+    console.log(response.body);
 
     expect(response.status).toBe(200);
     expect(response.body.id).toBeDefined();

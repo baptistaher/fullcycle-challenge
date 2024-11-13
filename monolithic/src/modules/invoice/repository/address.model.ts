@@ -12,10 +12,6 @@ import { InvoiceModel } from "./invoice.model";
   timestamps: false,
 })
 export class AddressModel extends Model {
-  // @PrimaryKey
-  // @Column({ allowNull: false, field: "id" })
-  // id: string;
-
   @Column({ allowNull: false })
   street: string;
 

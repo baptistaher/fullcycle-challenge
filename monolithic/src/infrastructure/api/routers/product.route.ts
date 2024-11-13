@@ -19,17 +19,7 @@ productRoute.post("/", async (req: Request, res: Response) => {
     const result = await useCase.execute(input);
     return res.status(200).send(result);
   } catch (error) {
+    console.log(error);
     return res.status(500).send(error);
   }
 });
-
-// productAdmRoute.get("/:id", async (req: Request, res: Response) => {
-//   try {
-//     const repository = new ProductRepository();
-//     const useCase = new FindPro();
-//     // const result = await facade.checkStock({ productId: req.params.id });
-//     return res.status(200).send(result);
-//   } catch (error) {
-//     return res.status(500).send(error);
-//   }
-// });

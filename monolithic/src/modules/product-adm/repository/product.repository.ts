@@ -5,6 +5,8 @@ import { ProductModel } from "./product.model";
 
 export default class ProductRepository implements ProductGateway {
   async add(product: Product): Promise<void> {
+    // console.log(product);
+    // try {
     await ProductModel.create({
       id: product.id.id,
       name: product.name,
@@ -15,6 +17,9 @@ export default class ProductRepository implements ProductGateway {
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
     });
+    // } catch (error) {
+    // console.log(error);
+    // }
   }
   async find(id: string): Promise<Product> {
     const product = await ProductModel.findOne({
