@@ -9,11 +9,11 @@ import OrderModel from "../../modules/checkout/repository/order.model";
 import OrderItemModel from "../../modules/checkout/repository/order-item.model";
 import { ClientModel } from "../../modules/client-adm/repository/client.model";
 import { CheckoutModel } from "../../modules/checkout/repository/checkout.model";
-import { ProductModel } from "../../modules/product-adm/repository/product.model";
+import ProductAdmModel from "../../modules/product-adm/repository/product.model";
 import { TransactionModel } from "../../modules/payment/repository/transaction.model";
 import { InvoiceItemsModel } from "../../modules/invoice/repository/invoice-items.model";
 import { InvoiceModel } from "../../modules/invoice/repository/invoice.model";
-import { ProductModel as StoreCatalogProductModel } from "../../modules/store-catalog/repository/product.model";
+import StoreCatalogProductModel from "../../modules/store-catalog/repository/product.model";
 import ClientAdmFacadeFactory from "../../modules/client-adm/factory/client-adm.facade.factory";
 import Address from "../../modules/@shared/domain/value-object/address";
 import ProductAdmFacadeFactory from "../../modules/product-adm/factory/facade.factory";
@@ -44,7 +44,7 @@ describe("Checkout Migration test", () => {
       AddressModel,
       ClientModel,
       CheckoutModel,
-      ProductModel,
+      ProductAdmModel,
       TransactionModel,
       InvoiceItemsModel,
       InvoiceModel,

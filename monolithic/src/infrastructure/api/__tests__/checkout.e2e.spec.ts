@@ -11,12 +11,11 @@ import ClientAdmFacadeFactory from "../../../modules/client-adm/factory/client-a
 import Address from "../../../modules/@shared/domain/value-object/address";
 import ProductAdmFacadeFactory from "../../../modules/product-adm/factory/facade.factory";
 import request from "supertest";
-import { ProductModel as ProductAdmModel } from "../../../modules/product-adm/repository/product.model";
+import ProductAdmModel from "../../../modules/product-adm/repository/product.model";
 import { ClientModel } from "../../../modules/client-adm/repository/client.model";
-import { ProductModel as StoreCatalogProductModel } from "../../../modules/store-catalog/repository/product.model";
+import StoreCatalogProductModel from "../../../modules/store-catalog/repository/product.model";
 import { TransactionModel } from "../../../modules/payment/repository/transaction.model";
 import { InvoiceModel } from "../../../modules/invoice/repository/invoice.model";
-// import StoreCatalogFacadeFactory from "../../../modules/store-catalog/factory/facade.factory";
 describe("Checkout test E2E", () => {
   const app: Express = express();
 
@@ -49,6 +48,8 @@ describe("Checkout test E2E", () => {
       ]);
       migration = migrator(sequelize);
       await migration.up();
+
+      sequelize.sync({ force: true });
 
       server = await new Promise<http.Server>((resolve) => {
         const s = app.listen(() => resolve(s));

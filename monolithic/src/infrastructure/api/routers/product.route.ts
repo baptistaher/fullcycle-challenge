@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import ProductAdmFacadeFactory from "../../../modules/product-adm/factory/facade.factory";
 import { AddProductInputDto } from "../../../modules/product-adm/usecase/add-product/add-product.dto";
 import AddProductUseCase from "../../../modules/product-adm/usecase/add-product/add-product.usecase";
 import ProductRepository from "../../../modules/product-adm/repository/product.repository";

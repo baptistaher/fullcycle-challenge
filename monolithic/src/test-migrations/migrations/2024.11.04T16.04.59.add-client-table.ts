@@ -1,5 +1,4 @@
 import { DataTypes, Sequelize } from "sequelize";
-
 import type { MigrationFn } from "umzug";
 
 export const up: MigrationFn<Sequelize> = async ({ context: sequelize }) => {

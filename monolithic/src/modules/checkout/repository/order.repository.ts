@@ -14,8 +14,10 @@ export default class OrderRepository implements CheckoutGateway {
       id: order.id.id,
       clientId: order.client.id.id,
       status: order.status,
-      // invoiceId: order.invoiceId,
+      invoiceId: order.invoiceId,
     });
+
+    console.log("newORder", newOrder);
 
     const orderItems = order.products.map((product) => {
       return {
@@ -26,6 +28,8 @@ export default class OrderRepository implements CheckoutGateway {
         salesPrice: product.salesPrice,
       };
     });
+
+    console.log(orderItems);
 
     await OrderItemModel.bulkCreate(orderItems);
 
@@ -71,6 +75,7 @@ export default class OrderRepository implements CheckoutGateway {
           salesPrice: product.salesPrice,
         });
       }),
+      invoiceId: orderModel.invoiceId,
     });
 
     // throw new Error("Method not implemented.");

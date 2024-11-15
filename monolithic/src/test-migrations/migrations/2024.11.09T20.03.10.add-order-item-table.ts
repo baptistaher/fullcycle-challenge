@@ -8,7 +8,7 @@ export const up: MigrationFn<Sequelize> = async ({ context: sequelize }) => {
       primaryKey: true,
       allowNull: false,
     },
-    orderId: {
+    order_id: {
       type: DataTypes.STRING,
       allowNull: false,
     },

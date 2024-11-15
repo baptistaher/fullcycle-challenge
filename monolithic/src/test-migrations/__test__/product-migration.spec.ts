@@ -5,7 +5,7 @@ import request from "supertest";
 import { Sequelize } from "sequelize-typescript";
 import { Umzug } from "umzug";
 import { migrator } from "../config-migrations/migrator";
-import { ProductModel } from "../../modules/product-adm/repository/product.model";
+import ProductModel from "../../modules/product-adm/repository/product.model";
 describe("Products test E2E", () => {
   const app: Express = express();
   app.use(express.json());
@@ -53,6 +53,7 @@ describe("Products test E2E", () => {
       name: "Product 1",
       description: "Product 1 description",
       purchasePrice: 100,
+      salesPrice: 100,
       stock: 10,
     });
 
