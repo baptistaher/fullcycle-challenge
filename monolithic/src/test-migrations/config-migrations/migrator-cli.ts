@@ -1,8 +1,8 @@
 import { join } from "path";
 import { migrator } from "./migrator";
 import pino from "pino";
-// import { Sequelize } from "sequelize-typescript";
-import { Sequelize } from "sequelize";
+import { Sequelize } from "sequelize-typescript";
+// import { Sequelize } from "sequelize";
 
 // const logger = pino({
 //   transport: {

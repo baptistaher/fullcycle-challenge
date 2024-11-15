@@ -6,7 +6,7 @@ dotenv.config();
 
 const port: number = Number(process.env.PORT) || 3000;
 
-const logger = pino({
+export const logger = pino({
   transport: {
     target: "pino-pretty",
     options: { colorize: true },

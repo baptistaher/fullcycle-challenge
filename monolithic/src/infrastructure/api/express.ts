@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import { Sequelize } from "sequelize-typescript";
 import pinoHttp from "pino-http";
 import { Umzug } from "umzug";
+import { migrator } from "../../test-migrations/config-migrations/migrator";
 
 import ProductAdmModel from "../../modules/product-adm/repository/product.model";
 import { ClientModel } from "../../modules/client-adm/repository/client.model";
@@ -18,6 +19,7 @@ import { clientRoute } from "./routers/client.route";
 import { invoiceRoute } from "./routers/invoice.route";
 import { checkoutRoute } from "./routers/checkout.route";
 import { TransactionModel } from "../../modules/payment/repository/transaction.model";
+import { logger } from "./server";
 
 export const app: Express = express();
 app.use(pinoHttp());
@@ -29,50 +31,37 @@ app.use("/invoice", invoiceRoute);
 
 export let sequelize: Sequelize;
 
-// let migration: Umzug<any>;
+// let migration: Umzug<Sequelize>;
 
 async function setupDb() {
   sequelize = new Sequelize({
     dialect: "sqlite",
     storage: ":memory:",
-    logging: true,
+    logging: (sql, timing) =>
+      logger.info(
+        sql,
+        typeof timing === "number" ? `Elapsed time: ${timing}ms` : ""
+      ),
   });
 
-  await sequelize.addModels([
+  sequelize.addModels([
     OrderModel,
     OrderItemModel,
     AddressModel,
     ClientModel,
     CheckoutModel,
-    ProductAdmModel,
     TransactionModel,
     InvoiceItemsModel,
     InvoiceModel,
+    ProductAdmModel,
     StoreCatalogProductModel,
   ]);
+
+  // migration = migrator(sequelize);
+
+  // await migration.up();
+
   await sequelize.sync();
-
-  // try {
-  //   await sequelize.authenticate();
-
-  //   await sequelize.addModels([
-  //     ProductAdmModel,
-  //     ClientModel,
-  //     StoreCatalogProductModel,
-  //     CheckoutModel,
-  //     OrderItemModel,
-  //     OrderModel,
-  //     InvoiceModel,
-  //     AddressModel,
-  //     InvoiceItemsModel,
-  //   ]);
-  //   await sequelize.sync();
-  //   migration = migrator(sequelize);
-  //   await migration.up();
-  //   console.log(sequelize.models);
-  // } catch (error) {
-  //   console.error("Error setting up database:", error);
-  // }
 }
 
 setupDb();

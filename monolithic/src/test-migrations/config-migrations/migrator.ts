@@ -1,9 +1,8 @@
 import { join } from "path";
 import { SequelizeStorage, Umzug } from "umzug";
 
-import { Sequelize } from "sequelize";
-// import { Sequelize } from "sequelize-typescript";
-import pino from "pino";
+// import { Sequelize } from "sequelize";
+import { Sequelize } from "sequelize-typescript";
 
 // const transport = pino.transport({
 //   target: "pino-pretty",
