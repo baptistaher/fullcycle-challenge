@@ -18,8 +18,6 @@ export default class OrderRepository implements CheckoutGateway {
       invoiceId: order.invoiceId,
     });
 
-    // console.log("newORder", newOrder);
-
     const orderItems = order.products.map((product) => {
       return {
         id: product.id.id,
@@ -30,21 +28,12 @@ export default class OrderRepository implements CheckoutGateway {
       };
     });
 
-    // console.log(orderItems);
-
-    // console.log(sequelize.connectionManager);
-    // console.log(sequelize.models);
-
-    // try {
-    await OrderItemModel.bulkCreate(orderItems);
-    //   await transaction.commit();
-    // } catch (error) {
-    //   console.error(error);
-    //   await transaction.rollback();
-    //   throw error;
-    // }
-
-    // throw new Error("Method not implemented.");
+    try {
+      await OrderItemModel.bulkCreate(orderItems);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }
   async findOrder(id: string): Promise<Order | null> {
     const orderModel: OrderModel = await OrderModel.findOne({

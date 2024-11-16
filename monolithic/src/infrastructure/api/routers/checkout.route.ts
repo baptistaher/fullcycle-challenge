@@ -39,7 +39,7 @@ checkoutRoute.post("/", async (req: Request, res: Response) => {
     const output = await useCase.execute(inputDto);
     return res.status(200).send(output);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).send(error);
   }
 });

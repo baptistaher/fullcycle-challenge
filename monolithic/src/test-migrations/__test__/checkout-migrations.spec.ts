@@ -44,15 +44,15 @@ describe("Checkout Migration test", () => {
       AddressModel,
       ClientModel,
       CheckoutModel,
-      ProductAdmModel,
       TransactionModel,
       InvoiceItemsModel,
       InvoiceModel,
       StoreCatalogProductModel,
+      ProductAdmModel,
     ]);
     migration = migrator(sequelize);
     await migration.up();
-
+    await sequelize.sync({ force: true });
     server = await new Promise<http.Server>((resolve) => {
       const s = app.listen(() => resolve(s));
     });
@@ -126,9 +126,9 @@ describe("Checkout Migration test", () => {
       });
 
     console.log(response.body);
-    // expect(response.status).toBe(200);
-    // expect(response.body.id).toBeDefined();
-    // expect(response.body.total).toBe(100);
-    // expect(response.body.status).toBe("approved");
+    expect(response.status).toBe(200);
+    expect(response.body.id).toBeDefined();
+    expect(response.body.total).toBe(100);
+    expect(response.body.status).toBe("approved");
   });
 });

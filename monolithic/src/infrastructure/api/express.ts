@@ -32,7 +32,7 @@ app.use(pinoHttp());
 app.use(express.json());
 app.use("/product", productRoute);
 app.use("/client", clientRoute);
-console.log({ checkoutRoute });
+
 app.use("/checkout", checkoutRoute);
 app.use("/invoice", invoiceRoute);
 
@@ -45,11 +45,12 @@ async function setupDb() {
     sequelize = new Sequelize({
       dialect: "sqlite",
       storage: ":memory:",
-      logging: (sql, timing) =>
-        logger.info(
-          sql,
-          typeof timing === "number" ? `Elapsed time: ${timing}ms` : ""
-        ),
+      logging: false,
+      // logging: (sql, timing) =>
+      //   logger.info(
+      //     sql,
+      //     typeof timing === "number" ? `Elapsed time: ${timing}ms` : ""
+      //   ),
     });
 
     await sequelize.addModels([
@@ -70,11 +71,6 @@ async function setupDb() {
     await migration.up();
 
     await sequelize.sync();
-
-    sequelize
-      .getQueryInterface()
-      .describeTable("products")
-      .then((columns) => logger.warn(columns));
 
     logger.debug("Database synced and migration applied.");
   } catch (error) {
