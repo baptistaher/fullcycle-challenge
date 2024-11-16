@@ -1,3 +1,4 @@
+import { sequelize } from "../../../infrastructure/api/express";
 import Address from "../../@shared/domain/value-object/address";
 import Id from "../../@shared/domain/value-object/id.value-object";
 import Client from "../domain/client.entity";
@@ -17,7 +18,7 @@ export default class OrderRepository implements CheckoutGateway {
       invoiceId: order.invoiceId,
     });
 
-    console.log("newORder", newOrder);
+    // console.log("newORder", newOrder);
 
     const orderItems = order.products.map((product) => {
       return {
@@ -29,9 +30,19 @@ export default class OrderRepository implements CheckoutGateway {
       };
     });
 
-    console.log(orderItems);
+    // console.log(orderItems);
 
+    // console.log(sequelize.connectionManager);
+    // console.log(sequelize.models);
+
+    // try {
     await OrderItemModel.bulkCreate(orderItems);
+    //   await transaction.commit();
+    // } catch (error) {
+    //   console.error(error);
+    //   await transaction.rollback();
+    //   throw error;
+    // }
 
     // throw new Error("Method not implemented.");
   }

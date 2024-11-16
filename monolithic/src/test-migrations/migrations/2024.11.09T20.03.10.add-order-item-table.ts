@@ -12,6 +12,10 @@ export const up: MigrationFn<Sequelize> = async ({ context: sequelize }) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     description: {
       type: DataTypes.STRING,
       allowNull: false,

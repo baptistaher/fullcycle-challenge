@@ -19,49 +19,67 @@ import { clientRoute } from "./routers/client.route";
 import { invoiceRoute } from "./routers/invoice.route";
 import { checkoutRoute } from "./routers/checkout.route";
 import { TransactionModel } from "../../modules/payment/repository/transaction.model";
-import { logger } from "./server";
-
+import pino from "pino";
 export const app: Express = express();
+export const logger = pino({
+  transport: {
+    target: "pino-pretty",
+    options: { colorize: true },
+  },
+});
+
 app.use(pinoHttp());
 app.use(express.json());
 app.use("/product", productRoute);
 app.use("/client", clientRoute);
+console.log({ checkoutRoute });
 app.use("/checkout", checkoutRoute);
 app.use("/invoice", invoiceRoute);
 
 export let sequelize: Sequelize;
 
-// let migration: Umzug<Sequelize>;
+let migration: Umzug<Sequelize>;
 
 async function setupDb() {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: ":memory:",
-    logging: (sql, timing) =>
-      logger.info(
-        sql,
-        typeof timing === "number" ? `Elapsed time: ${timing}ms` : ""
-      ),
-  });
+  try {
+    sequelize = new Sequelize({
+      dialect: "sqlite",
+      storage: ":memory:",
+      logging: (sql, timing) =>
+        logger.info(
+          sql,
+          typeof timing === "number" ? `Elapsed time: ${timing}ms` : ""
+        ),
+    });
 
-  sequelize.addModels([
-    OrderModel,
-    OrderItemModel,
-    AddressModel,
-    ClientModel,
-    CheckoutModel,
-    TransactionModel,
-    InvoiceItemsModel,
-    InvoiceModel,
-    ProductAdmModel,
-    StoreCatalogProductModel,
-  ]);
+    await sequelize.addModels([
+      TransactionModel,
+      AddressModel,
+      ClientModel,
+      CheckoutModel,
+      InvoiceItemsModel,
+      InvoiceModel,
+      OrderItemModel,
+      OrderModel,
+      StoreCatalogProductModel,
+      ProductAdmModel,
+    ]);
 
-  // migration = migrator(sequelize);
+    migration = migrator(sequelize);
 
-  // await migration.up();
+    await migration.up();
 
-  await sequelize.sync();
+    await sequelize.sync();
+
+    sequelize
+      .getQueryInterface()
+      .describeTable("products")
+      .then((columns) => logger.warn(columns));
+
+    logger.debug("Database synced and migration applied.");
+  } catch (error) {
+    logger.error("Error during database setup", error);
+  }
 }
 
 setupDb();

@@ -8,7 +8,7 @@ describe("Invoice test E2E", () => {
     await sequelize.sync({ force: true });
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await sequelize.close();
   });
 

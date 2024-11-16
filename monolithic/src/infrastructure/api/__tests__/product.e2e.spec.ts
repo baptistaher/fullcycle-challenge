@@ -5,7 +5,7 @@ describe("Products test E2E", () => {
   beforeEach(async () => {
     await sequelize.sync({ force: true });
   });
-  afterEach(async () => {
+  afterAll(async () => {
     await sequelize.close();
   });
 
@@ -19,10 +19,10 @@ describe("Products test E2E", () => {
     });
 
     expect(response.status).toBe(200);
-    // expect(response.body.id).toBeDefined();
-    // expect(response.body.name).toBe("Product 1");
-    // expect(response.body.description).toBe("Product 1 description");
-    // expect(response.body.purchasePrice).toBe(100);
-    // expect(response.body.stock).toBe(10);
+    expect(response.body.id).toBeDefined();
+    expect(response.body.name).toBe("Product 1");
+    expect(response.body.description).toBe("Product 1 description");
+    expect(response.body.purchasePrice).toBe(100);
+    expect(response.body.stock).toBe(10);
   });
 });

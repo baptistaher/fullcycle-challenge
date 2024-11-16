@@ -39,8 +39,8 @@ describe("Checkout Migration test", () => {
     });
 
     await sequelize.addModels([
-      OrderModel,
       OrderItemModel,
+      OrderModel,
       AddressModel,
       ClientModel,
       CheckoutModel,

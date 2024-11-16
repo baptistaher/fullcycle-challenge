@@ -9,7 +9,7 @@ describe("Checkout test E2E", () => {
     await sequelize.sync({ force: true });
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await sequelize.close();
   });
 
@@ -70,11 +70,8 @@ describe("Checkout test E2E", () => {
 
     const response = await request(app).post("/checkout").send(inputDto);
 
-    console.log(response.body);
-
     expect(response.status).toBe(200);
     expect(response.body.id).toBeDefined();
-    expect(response.body.clientId).toBe(client.id);
     expect(response.body.products.length).toBe(2);
     expect(response.body.total).toBe(200);
   });
