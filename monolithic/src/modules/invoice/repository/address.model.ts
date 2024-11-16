@@ -3,6 +3,7 @@ import {
   Column,
   ForeignKey,
   Model,
+  PrimaryKey,
   Table,
 } from "sequelize-typescript";
 import { InvoiceModel } from "./invoice.model";
@@ -12,6 +13,10 @@ import { InvoiceModel } from "./invoice.model";
   timestamps: false,
 })
 export class AddressModel extends Model {
+  @PrimaryKey
+  @Column({ allowNull: false })
+  id: string;
+
   @Column({ allowNull: false })
   street: string;
 

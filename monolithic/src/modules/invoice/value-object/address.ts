@@ -1,4 +1,7 @@
+import Id from "../../@shared/domain/value-object/id.value-object";
+
 type AddressProps = {
+  id?: Id;
   street: string;
   number: string;
   complement: string;
@@ -8,6 +11,7 @@ type AddressProps = {
 };
 
 export default class Address {
+  private _id: string = "";
   private _street: string = "";
   private _number: string = "";
   private _zip: string = "";
@@ -16,6 +20,7 @@ export default class Address {
   private _complement: string = "";
 
   constructor(props: AddressProps) {
+    this._id = props.id ? props.id.id : new Id().id;
     this._street = props.street;
     this._number = props.number;
     this._zip = props.zip;
@@ -39,6 +44,10 @@ export default class Address {
     if (this._state.length === 0) {
       throw new Error("State is required");
     }
+  }
+
+  get id(): string {
+    return this._id;
   }
 
   get street(): string {

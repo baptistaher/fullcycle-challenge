@@ -4,11 +4,11 @@ import type { MigrationFn } from "umzug";
 
 export const up: MigrationFn<Sequelize> = async ({ context: sequelize }) => {
   await sequelize.getQueryInterface().createTable("addresses", {
-    // id: {
-    //   type: DataTypes.INTEGER,
-    //   primaryKey: true,
-    //   allowNull: false,
-    // },
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+      allowNull: false,
+    },
     street: {
       type: DataTypes.STRING,
       allowNull: false,

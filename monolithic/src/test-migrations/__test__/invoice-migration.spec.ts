@@ -82,6 +82,8 @@ describe("Invoice Migration Test", () => {
 
     const response = await request(app).get(`/invoice/${output.id}`);
 
+    console.log(output);
+
     expect(response.status).toBe(200);
     expect(response.body.id).toBe(output.id);
     expect(response.body.name).toBe(output.name);
