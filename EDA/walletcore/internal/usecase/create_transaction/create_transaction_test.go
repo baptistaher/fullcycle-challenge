@@ -1,9 +1,11 @@
-package createtransaction
+package create_transaction
 
 import (
 	"testing"
 
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/entity"
+	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/event"
+	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/pkg/events"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -54,7 +56,10 @@ func TestCreateTransactionUseCase_Execute(t *testing.T) {
 		Amount:        100,
 	}
 
-	uc := NewCreateTransactionUseCase(mockTransaction, mockAccount)
+	dispatcher := events.NewEventDispatcher()
+	event := event.NewTransactionCreated()
+
+	uc := NewCreateTransactionUseCase(mockTransaction, mockAccount, dispatcher, event)
 
 	output, err := uc.Execute(inputDto)
 	assert.Nil(t, err)

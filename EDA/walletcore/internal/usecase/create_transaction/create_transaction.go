@@ -1,8 +1,9 @@
-package createtransaction
+package create_transaction
 
 import (
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/entity"
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/gateway"
+	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/pkg/events"
 )
 
 type CreateTransactionInputDTO struct {
@@ -18,12 +19,20 @@ type CreateTransactionOutputDTO struct {
 type CreateTransactionUsecCase struct {
 	TransactionGateway gateway.TransactionGateway
 	AccountGateway     gateway.AccountGateway
+	EventDispatcher    events.EventDispatcherInterface
+	TransactionCreated events.EventInterface
 }
 
-func NewCreateTransactionUseCase(transactionGateway gateway.TransactionGateway, accountGateway gateway.AccountGateway) *CreateTransactionUsecCase {
+func NewCreateTransactionUseCase(
+	transactionGateway gateway.TransactionGateway,
+	accountGateway gateway.AccountGateway,
+	eventDispatcher events.EventDispatcherInterface,
+	transactionCreated events.EventInterface) *CreateTransactionUsecCase {
 	return &CreateTransactionUsecCase{
 		TransactionGateway: transactionGateway,
 		AccountGateway:     accountGateway,
+		EventDispatcher:    eventDispatcher,
+		TransactionCreated: transactionCreated,
 	}
 }
 
@@ -49,7 +58,12 @@ func (uc *CreateTransactionUsecCase) Execute(input CreateTransactionInputDTO) (*
 		return nil, err
 	}
 
-	return &CreateTransactionOutputDTO{
+	output := &CreateTransactionOutputDTO{
 		ID: transaction.ID,
-	}, nil
+	}
+
+	uc.TransactionCreated.SetPayload(output)
+	uc.EventDispatcher.Dispatch(uc.TransactionCreated)
+
+	return output, nil
 }
