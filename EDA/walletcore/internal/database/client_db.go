@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/entity"
 )
@@ -39,6 +40,7 @@ func (c *ClientDB) Save(client *entity.Client) error {
 	stmt, err := c.DB.Prepare("INSERT INTO clients (id, name, email, created_at, updated_at) VALUES (?, ?, ?, ?, ?)")
 
 	if err != nil {
+		// log.Printf("Error preparing statement to create client: %v", err)
 		return err
 	}
 
@@ -46,9 +48,11 @@ func (c *ClientDB) Save(client *entity.Client) error {
 	_, err = stmt.Exec(client.ID, client.Name, client.Email, client.CreatedAt, client.UpdatedAt)
 
 	if err != nil {
+		// log.Printf("Error creating client: %v", err)
 		return err
 	}
 
+	log.Printf("Client created: %v", client)
 	return nil
 
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 
@@ -12,6 +13,7 @@ import (
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/web"
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/web/webserver"
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/pkg/events"
+	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/pkg/uow"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -19,7 +21,7 @@ func main() {
 	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		"root",
 		"root",
-		"mysql",
+		"localhost",
 		"3306",
 		"wallet"))
 
@@ -37,14 +39,24 @@ func main() {
 
 	accountDb := database.NewAccountDB(db)
 
-	transactionDb := database.NewTransactionDB(db)
+	// transactionDb := database.NewTransactionDB(db)
+
+	ctx := context.Background()
+	uow := uow.NewUow(ctx, db)
+
+	uow.Register("AccountDB", func(tx *sql.Tx) interface{} {
+		return database.NewAccountDB(db)
+	})
+
+	uow.Register("TransactionDB", func(tx *sql.Tx) interface{} {
+		return database.NewTransactionDB(db)
+	})
 
 	createClientUseCase := create_client.NewCreateClientUseCase(clientDb)
 
 	createAccountUseCase := create_account.NewCreateAccountUseCase(accountDb, clientDb)
 
-	createTransactionUseCase := create_transaction.NewCreateTransactionUseCase(transactionDb,
-		accountDb,
+	createTransactionUseCase := create_transaction.NewCreateTransactionUseCase(uow,
 		eventDispatcher,
 		transactionCreatedEvent)
 

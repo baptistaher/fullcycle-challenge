@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/usecase/create_client"
@@ -38,6 +39,7 @@ func (h *WebClientHandler) CreateClient(w http.ResponseWriter, r *http.Request) 
 	w.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(w).Encode(output)
 	if err != nil {
+		log.Printf("Error: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}

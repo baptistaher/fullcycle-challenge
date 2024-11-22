@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"log"
 
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/entity"
 )
@@ -25,6 +26,7 @@ func (a *AccountDB) FindByID(id string) (*entity.Account, error) {
 	stmt, err := a.DB.Prepare("SELECT a.id, a.client_id, a.balance, a.created_at, a.updated_at, c.id, c.name, c.email, c.created_at, c.updated_at FROM accounts a INNER JOIN clients c ON a.client_id = c.id WHERE a.id = ?")
 
 	if err != nil {
+		log.Printf("Error preparing statement to find account by id: %v", err)
 		return nil, err
 	}
 
@@ -54,6 +56,8 @@ func (a *AccountDB) Save(account *entity.Account) error {
 	stmt, err := a.DB.Prepare("INSERT INTO accounts (id, client_id, balance, created_at, updated_at) VALUES (?, ?, ?, ?, ?)")
 
 	if err != nil {
+		log.Printf("Error preparing statement to create account : %v", err)
+
 		return err
 	}
 
@@ -66,6 +70,28 @@ func (a *AccountDB) Save(account *entity.Account) error {
 		account.UpdatedAt)
 
 	if err != nil {
+		log.Printf("Error preparing statement to find account by id: %v", err)
+
+		return err
+	}
+
+	return nil
+}
+
+func (a *AccountDB) UpdateBalance(account *entity.Account) error {
+	stmt, err := a.DB.Prepare("UPDATE accounts SET balance = ? WHERE id = ?")
+
+	if err != nil {
+		// log.Printf("Error preparing statement to update account: %v", err)
+		return err
+	}
+
+	defer stmt.Close()
+
+	_, err = stmt.Exec(account.Balance, account.ID)
+
+	if err != nil {
+		// log.Printf("Error updating account: %v", err)
 		return err
 	}
 

@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/internal/usecase/create_account"
@@ -18,6 +19,7 @@ func NewWebAccountHandler(createAccountUseCase create_account.CreateAccountUseCa
 }
 
 func (handler *WebAccountHandler) CreateAccount(w http.ResponseWriter, r *http.Request) {
+
 	var dto create_account.CreateAccountInputDTO
 
 	err := json.NewDecoder(r.Body).Decode(&dto)
@@ -37,6 +39,7 @@ func (handler *WebAccountHandler) CreateAccount(w http.ResponseWriter, r *http.R
 	w.Header().Set("Content-Type", "application/json")
 	err = json.NewEncoder(w).Encode(output)
 	if err != nil {
+		log.Printf("Error: %v", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
