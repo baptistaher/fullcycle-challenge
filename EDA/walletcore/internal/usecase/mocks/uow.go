@@ -24,7 +24,6 @@ func (m *UowMock) Do(ctx context.Context, fn func(uow *uow.Uow) error) error {
 	args := m.Called(fn)
 	return args.Error(0)
 }
-
 func (m *UowMock) CommitOrRollback() error {
 	args := m.Called()
 	return args.Error(0)
