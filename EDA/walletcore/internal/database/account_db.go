@@ -13,6 +13,7 @@ type AccountDB struct {
 
 func NewAccountDB(db *sql.DB) *AccountDB {
 	return &AccountDB{
+
 		DB: db,
 	}
 }
