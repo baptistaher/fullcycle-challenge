@@ -22,12 +22,20 @@ type CreateTransactionOutputDTO struct {
 	Amount        float64 `json:"amount"`
 }
 
+type BalanceUpdatedOutputDTO struct {
+	AccountIDFrom        string  `json:"account_id_from"`
+	AccountIDTo          string  `json:"account_id_to"`
+	BalanceAccountIDFrom float64 `json:"balance_account_id_from"`
+	BalanceAccountIDTo   float64 `json:"balance_acconut_id_to"`
+}
+
 type CreateTransactionUsecCase struct {
 	Uow uow.UowInterface
 	// TransactionGateway gateway.TransactionGateway
 	// AccountGateway     gateway.AccountGateway
 	EventDispatcher    events.EventDispatcherInterface
 	TransactionCreated events.EventInterface
+	BalanceUpdated     events.EventInterface
 }
 
 func NewCreateTransactionUseCase(
@@ -35,13 +43,16 @@ func NewCreateTransactionUseCase(
 	//  gateway.TransactionGateway,
 	// accountGateway gateway.AccountGateway,
 	eventDispatcher events.EventDispatcherInterface,
-	transactionCreated events.EventInterface) *CreateTransactionUsecCase {
+	transactionCreated events.EventInterface,
+	balanceUpdated events.EventInterface,
+) *CreateTransactionUsecCase {
 	return &CreateTransactionUsecCase{
 		Uow: Uow,
 		// TransactionGateway: transactionGateway,
 		// AccountGateway:     accountGateway,
 		EventDispatcher:    eventDispatcher,
 		TransactionCreated: transactionCreated,
+		BalanceUpdated:     balanceUpdated,
 	}
 }
 
@@ -82,6 +93,7 @@ func (uc *CreateTransactionUsecCase) Execute(ctx context.Context, input CreateTr
 	// }
 
 	output := &CreateTransactionOutputDTO{}
+	balanceUpdateOutput := &BalanceUpdatedOutputDTO{}
 
 	err := uc.Uow.Do(ctx, func(_ *uow.Uow) error {
 		accountRepository := uc.getAccountRepository(ctx)
@@ -123,6 +135,11 @@ func (uc *CreateTransactionUsecCase) Execute(ctx context.Context, input CreateTr
 		output.AccountIDTo = input.AccountIDTo
 		output.Amount = input.Amount
 
+		balanceUpdateOutput.AccountIDFrom = input.AccountIDFrom
+		balanceUpdateOutput.AccountIDTo = input.AccountIDTo
+		balanceUpdateOutput.BalanceAccountIDFrom = accountFrom.Balance
+		balanceUpdateOutput.BalanceAccountIDTo = accountTo.Balance
+
 		return nil
 
 		// output := &CreateTransactionOutputDTO{
@@ -136,6 +153,9 @@ func (uc *CreateTransactionUsecCase) Execute(ctx context.Context, input CreateTr
 
 	uc.TransactionCreated.SetPayload(output)
 	uc.EventDispatcher.Dispatch(uc.TransactionCreated)
+
+	uc.BalanceUpdated.SetPayload(balanceUpdateOutput)
+	uc.EventDispatcher.Dispatch(uc.BalanceUpdated)
 
 	return output, nil
 }
