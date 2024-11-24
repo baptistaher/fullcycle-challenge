@@ -1,0 +1,11 @@
+services:
+  rabbit:
+    image: rabbitmq:4.0.4-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_COOKIE: "rabbitcookie"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
