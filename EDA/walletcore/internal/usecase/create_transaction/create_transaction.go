@@ -142,9 +142,6 @@ func (uc *CreateTransactionUsecCase) Execute(ctx context.Context, input CreateTr
 
 		return nil
 
-		// output := &CreateTransactionOutputDTO{
-		// 	ID: transaction.ID,
-		// }
 	})
 
 	if err != nil {

@@ -1,21 +1,53 @@
 #!/bin/bash
 
-echo "Waiting for MySql to be ready..."
-
-until mysqladmin ping -h "mysql-wallet" --silent; do
-  echo "Waiting for MySql to be ready..."
+echo "Waiting for MySQL to be ready..."
+while ! mysqladmin ping -h "mysql" -u root -proot --silent; do
+  echo "Waiting for MySQL to respond..."
   sleep 2
 done
-
-echo "MySql is ready!"
+echo "MySQL is ready!"
 
 # Run database migrations
 
-migrate -path=/opt/app/internal/database/migrations -database "mysql://root:root@tcp(mysql-wallet:3306)/wallet?parseTime=true" -verbose up
+if [ -d "/app/internal/database/migrations" ]; then
+  echo "Starting migrations..."
+  migrate -path /app/internal/database/migrations \
+    -database "mysql://root:root@tcp(mysql:3306)/wallet?parseTime=true" \
+    -verbose up || {
+    echo "Migrations failed!"
+    exit 1
+  }
+  sleep 2
+else
+  echo "Migration directory not found!"
+  exit 1
+fi
 
-# run the seed
+echo "migrations done"
 
-migrate -path=/opt/app/internal/database/seed -database "mysql://root:root@tcp(mysql-wallet:3306)/wallet?parseTime=true" -verbose up
+SEED_PATH=/app/internal/database/seed
+
+if [ -d "$SEED_PATH" ]; then
+  echo "Starting seed..."
+  for file in "$SEED_PATH"/*.up.sql; do
+
+    echo "Executing seed file: $file"
+    mysql -h mysql -u root -proot wallet <"$file"
+
+    # Check if the command succeeded
+    if [ $? -eq 0 ]; then
+      echo "Successfully executed: $file"
+    else
+      echo "Failed to execute: $file"
+      exit 1
+    fi
+  done
+
+else
+  echo "Seed PATH not found!"
+  exit 1
+
+fi
 
 # Start the application
-/opt/app/wallet-core
+# go run /app/cmd/walletcore/main.go

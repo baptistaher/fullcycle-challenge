@@ -10,10 +10,6 @@ type BalanceUpdated struct {
 func NewBalanceUpdated() *BalanceUpdated {
 	return &BalanceUpdated{
 		Name: "BalanceUpdated",
-		// Payload: struct {
-		// 	ClientID string
-		// 	Balance  int
-		// }{},
 	}
 }
 

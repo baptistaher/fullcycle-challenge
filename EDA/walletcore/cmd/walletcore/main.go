@@ -35,8 +35,9 @@ func main() {
 	defer db.Close()
 
 	configMap := ckafka.ConfigMap{
-		"bootstrap.servers": "kafka:29092",
-		"group.id":          "wallet",
+		"bootstrap.servers":  "kafka:29092",
+		"group.id":           "wallet",
+		"enable.auto.commit": true,
 	}
 
 	kafkaProducer := kafka.NewKafkaProducer(&configMap)
@@ -56,6 +57,10 @@ func main() {
 
 	ctx := context.Background()
 	uow := uow.NewUow(ctx, db)
+
+	uow.Register("ClientDB", func(tx *sql.Tx) interface{} {
+		return database.NewClientDB(db)
+	})
 
 	uow.Register("AccountDB", func(tx *sql.Tx) interface{} {
 		return database.NewAccountDB(db)
