@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { MenuProps } from '../types/menu.types';
 
 const initialState: MenuProps = {
-  selectedItem: [''],
+  selectedItem: [],
   selectedId: null,
   drawerOpen: false,
   error: null,
@@ -23,3 +23,5 @@ export const menu = createSlice({
     },
   },
 });
+
+export const { activeItem } = menu.actions;
