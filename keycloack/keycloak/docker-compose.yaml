@@ -1,6 +1,7 @@
 services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.0
+    container_name: keycloak
     command: start-dev
     ports:
       - 8080:8080
@@ -16,9 +17,13 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - keycloak-network
+      - db-network
 
   db:
     image: mysql:8.0.30-debian
+    container_name: db
     volumes:
       - ./.docker/dbdata:/var/lib/mysql
     environment:
@@ -29,3 +34,13 @@ services:
       interval: 10s
       retries: 3
       timeout: 10s
+    networks:
+      - db-network
+
+networks:
+  keycloak-network:
+    name: keycloak-network
+    driver: bridge
+  db-network:
+    name: db-network
+    driver: bridge
