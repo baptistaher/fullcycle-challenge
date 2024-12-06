@@ -1,11 +1,28 @@
-import express from "express";
+import express, { Response, Request, NextFunction } from "express";
 import session from "express-session";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 
+interface SessionData {
+  user?: any; // Define the user type explicitly if possible
+  nonce?: string;
+  access_token?: string;
+  id_token?: string;
+  state?: string;
+  codeVerifier?: string;
+}
+
+const globalSessionData: SessionData = {};
+
 const app = express();
 
 const memoryStore = new session.MemoryStore();
+
+const asyncHandler =
+  (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) =>
+  (req: Request, res: Response, next: NextFunction) => {
+    return Promise.resolve(fn(req, res, next)).catch(next);
+  };
 
 app.use(
   session({
@@ -13,16 +30,12 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: memoryStore,
+    //expires
   })
 );
 
-const middlewareIsAuth = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
-  //@ts-expect-error - type mismatch
-  if (!req.session.user) {
+const middlewareIsAuth = (req: Request, res: Response, next: NextFunction) => {
+  if (!globalSessionData.user) {
     return res.redirect("/login");
   }
   next();
@@ -31,17 +44,20 @@ const middlewareIsAuth = (
 app.get("/login", (req, res) => {
   const nonce = crypto.randomBytes(16).toString("base64");
 
-  //@ts-expect-error - type mismatch
-  req.session.nonce = nonce;
+  const codeVerifier = crypto.randomBytes(32).toString("hex");
 
-  req.session.save();
+  globalSessionData.nonce = nonce;
+
+  globalSessionData.codeVerifier = codeVerifier;
+
+  // req.session.save();
 
   const loginParams = new URLSearchParams({
     client_id: "fullcycle-client",
     redirect_uri: "http://localhost:3000/callback",
     response_type: "code",
     scope: "openid",
-    nonce,
+    nonce: nonce,
   });
 
   console.log(loginParams.toString());
@@ -50,63 +66,89 @@ app.get("/login", (req, res) => {
 
   console.log(url);
 
-  // console.log(req.session);
   res.redirect(url);
 });
 
-app.get("/callback", async (req, res) => {
-  //here
+app.get(
+  "/callback",
+  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const storedState = globalSessionData.state;
+      const storedNonce = globalSessionData.nonce;
+      // const storedCodeVerify = globalSessionData.codeVerify;
 
-  console.log(req.query);
+      if (globalSessionData.user) {
+        return res.redirect("/admin");
+      }
+      if (req.query.state !== globalSessionData.state) {
+        //poderia redirecionar para o login em vez de mostrar o erro
+        return res.status(401).json({ message: "Unauthenticated" });
+      }
+      //here
 
-  const bodyParams = new URLSearchParams({
-    client_id: "fullcycle-client",
-    grant_type: "authorization_code",
-    code: req.query.code as string,
-    redirect_uri: "http://localhost:3000/callback",
-  });
+      console.log(req.query);
 
-  const url =
-    "http://keycloak:8080/realms/fullcycle-realm/protocol/openid-connect/token";
+      const bodyParams = new URLSearchParams({
+        client_id: "fullcycle-client",
+        grant_type: "authorization_code",
+        code: req.query.code as string,
+        redirect_uri: "http://localhost:3000/callback",
+      });
 
-  const response = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: bodyParams.toString(),
-  });
+      const url =
+        "http://keycloak:8080/realms/fullcycle-realm/protocol/openid-connect/token";
 
-  if (!response.ok) {
-    const error = await response.text();
-    console.error("Error fetching token:", error);
-    res.status(response.status).json({ error: "Failed to fetch token" });
-  }
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: bodyParams.toString(),
+      });
 
-  console.log(response);
+      if (!response.ok) {
+        const error = await response.text();
+        console.error("Error fetching token:", error);
+        return res
+          .status(response.status)
+          .json({ error: "Failed to fetch token" });
+      }
 
-  const result = await response.json();
+      console.log(response);
 
-  const payloadAccessToken = jwt.decode(result.access_token);
-  console.log(payloadAccessToken);
+      const result = await response.json();
 
-  //@ts-expect-error - type mismatch
-  req.session.user = payloadAccessToken;
-  //@ts-expect-error - type mismatch
-  req.session.access_token = result.access_token;
+      const payloadAccessToken = jwt.decode(result.access_token) as any;
+      const payloadIdToken = jwt.decode(result.id_token) as any;
+      const payloadRefreshToken = jwt.decode(result.refresh_token) as any;
 
-  //@ts-expect-error - type mismatch
-  req.session.id_token = result.id_token;
+      console.log(payloadAccessToken);
 
-  // console.log(result);
+      if (
+        payloadAccessToken?.nonce !== globalSessionData.nonce ||
+        payloadRefreshToken?.nonce !== globalSessionData.nonce ||
+        payloadIdToken?.nonce !== globalSessionData.nonce
+      ) {
+        return res.status(401).json({ message: "Unauthenticated" });
+      }
 
-  res.json(result);
-  // res.send("ok");
-});
+      globalSessionData.user = payloadAccessToken;
+
+      globalSessionData.access_token = result.access_token;
+
+      globalSessionData.id_token = result.id_token;
+
+      req.session.save();
+
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  })
+);
 
 app.get("/admin", middlewareIsAuth, (req, res) => {
-  //@ts-expect-error - type mismatch
-  res.json(req.session.user);
+  res.json(globalSessionData.user);
 });
 
 app.listen(3000, () => {
