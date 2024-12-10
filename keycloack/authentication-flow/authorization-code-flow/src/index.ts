@@ -43,6 +43,7 @@ const middlewareIsAuth = (req: Request, res: Response, next: NextFunction) => {
 
 app.get("/login", (req, res) => {
   const nonce = crypto.randomBytes(16).toString("base64");
+  const state = crypto.randomBytes(16).toString("base64");
 
   const codeVerifier = crypto.randomBytes(32).toString("hex");
 
@@ -58,6 +59,7 @@ app.get("/login", (req, res) => {
     response_type: "code",
     scope: "openid",
     nonce: nonce,
+    state: state,
   });
 
   console.log(loginParams.toString());
