@@ -24,7 +24,6 @@ const initialContextData: AuthContextProps = {
 export const AuthContext = createContext<AuthContextProps>(initialContextData);
 
 export const AuthProvider = (props: PropsWithChildren) => {
-  console.log("here");
   const makeLogin = useCallback(
     (accessToken: string, idToken: string, state: string) => {
       const authData = utils.login(accessToken, idToken, state);

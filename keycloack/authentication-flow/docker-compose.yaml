@@ -14,3 +14,4 @@ networks:
   keycloak-network:
     name: keycloak-network
     driver: bridge
+    external: true

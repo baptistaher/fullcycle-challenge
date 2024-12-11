@@ -46,9 +46,6 @@ export function login(accessToken: string, idToken: string, state: string) {
     throw new Error("Invalid nonce");
   }
 
-  console.log(accessToken);
-  console.log(idToken);
-
   Cookies.set("access_token", accessToken);
   Cookies.set("id_token", idToken);
 

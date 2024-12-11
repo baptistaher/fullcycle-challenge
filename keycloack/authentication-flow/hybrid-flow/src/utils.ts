@@ -29,8 +29,6 @@ export function exchangeCodeForToken(code: string) {
     nonce: Cookies.get("nonce") as string,
   });
 
-  console.log(code);
-
   return fetch(
     "http://localhost:8080/realms/fullcycle-realm/protocol/openid-connect/token",
     {
@@ -89,9 +87,6 @@ export function login(
   if (refreshToken && decodedRefreshToken?.nonce !== Cookies.get("nonce")) {
     throw new Error("Invalid nonce");
   }
-
-  console.log(accessToken);
-  console.log(idToken);
 
   Cookies.set("access_token", accessToken);
 

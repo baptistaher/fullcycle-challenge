@@ -62,11 +62,7 @@ app.get("/login", (req, res) => {
     state: state,
   });
 
-  console.log(loginParams.toString());
-
   const url = `http://localhost:8080/realms/fullcycle-realm/protocol/openid-connect/auth?${loginParams.toString()}`;
-
-  console.log(url);
 
   res.redirect(url);
 });
@@ -86,9 +82,6 @@ app.get(
         //poderia redirecionar para o login em vez de mostrar o erro
         return res.status(401).json({ message: "Unauthenticated" });
       }
-      //here
-
-      console.log(req.query);
 
       const bodyParams = new URLSearchParams({
         client_id: "fullcycle-client",

@@ -5,7 +5,8 @@
   "scripts": {
     "authorization-code": "nodemon --watch authorization-code-flow/src  --exec ts-node ./authorization-code-flow/src/index.ts",
     "implicit": "cd implicit-flow && npm run dev",
-    "hybrid": "cd hybrid-flow && npm run dev"
+    "hybrid": "cd hybrid-flow && npm run dev",
+    "resource-owner": "nodemon --watch resource-owner-password/src --exec ts-node ./resource-owner-password/src/index.ts"
   },
   "workspaces": [
     "implicit-flow",
