@@ -12,6 +12,10 @@
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'"
   },
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-separator": "^1.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.4",
     "@reduxjs/toolkit": "^2.4.0",
     "axios": "^1.7.8",
     "class-variance-authority": "^0.7.1",
