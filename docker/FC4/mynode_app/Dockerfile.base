@@ -1,0 +1,12 @@
+
+# ARG can only be change in build
+ARG NODE_VERSION=22.11.0
+FROM node:${NODE_VERSION} 
+WORKDIR /app
+
+
+ONBUILD COPY package*.json ./
+ONBUILD RUN npm install
+ONBUILD COPY . .
+
+CMD ["node","index.js"]

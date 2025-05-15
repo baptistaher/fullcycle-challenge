@@ -1,0 +1,3 @@
+FROM bosshentai/docker-node-base:latest
+
+
