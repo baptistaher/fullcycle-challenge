@@ -1,6 +1,6 @@
 FROM golang:latest AS builder
 
-LABEL maintaner="Bosshentai"
+LABEL maintainer="bosshentai"
 LABEL env="production"
 
 

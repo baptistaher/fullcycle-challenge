@@ -5,9 +5,9 @@ FROM node:${NODE_VERSION}
 # FROM node:${NODE_VERSION}-alpine
 # FROM node:${NODE_VERSION}-slim
 
-RUN apt-get update && \
-  apt-get install -y vim && \ 
-  rn -rf /var/lib/apt/lists/*
+RUN apt-get update  \
+  && apt-get install -y vim \ 
+  && rm -rf /var/lib/apt/lists/*
 
 ENV PORT=3001
 ENV MESSAGE="Hello DOCKER!"

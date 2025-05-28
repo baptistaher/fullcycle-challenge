@@ -1,0 +1,3 @@
+.docker
+.env
+docker-cache/blobs/
