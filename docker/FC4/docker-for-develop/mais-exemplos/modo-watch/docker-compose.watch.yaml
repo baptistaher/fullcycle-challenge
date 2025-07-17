@@ -1,0 +1,18 @@
+services:
+  app:
+    build: .
+    command: npm run start:dev
+    restart: always
+    ports:
+      - 3000:3000
+    develop:
+      watch:
+        - action: sync
+          path: .
+          target: /home/node/app
+
+        # para uma situação que voce ja roda o projecto o rebuild vale a pena , mas usando um
+        - action: rebuild
+          path: ./package.json
+# nginx, mysql, postgres - editar arquivos que voce precisaria reiniciar manualmente o processo
+# watch - dev padrão, ou testes de versões definitivas para CI, Prod
