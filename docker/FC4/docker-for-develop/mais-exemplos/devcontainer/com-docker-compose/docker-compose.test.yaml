@@ -1,0 +1,58 @@
+include:
+  - ./external-api/docker-compose.external-api.yaml
+services:
+  web1:
+    extends:
+      file: docker-compose.common.yaml
+      service: web
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # build:
+    #   args:
+    #     - NODEMON_VERSION=${NODEMON_VERSION:-3.1.10}
+    #   context: .
+    #   dockerfile: Dockerfile.dev
+    # # command: npm run dev
+    # volumes:
+    #   - .:/home/node/app
+    # ports:
+    #   - "3000:3000"
+    # env_file:
+    #   - .env
+    # #   - path: .env.override
+    # #     required: false
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+    #     # restart: true
+    # # networks:
+    # #   - extermal-api_default
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+  db:
+    image: mysql:8.0.30-debian
+    # restart: on-failure:5 | always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: my_database
+    tmpfs:
+      - /var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s # interval = com que frequencia o healthcheck é executado
+      timeout: 5s # timeout - quanto tempo esperar antes de considerar o healthcheck falhado
+      retries: 5 # retries - numero de tentativas antes de iniciar o healthcheck
+      start_period: 10s # start_period - quanto tempo o container vai aguardar para o healthcheck ser executado
+      # MYSQL_USER: user
+      # MYSQL_PASSWORD: password
+    # networks:
+    #   - extermal-api_default
+# networks:
+#   extermal-api_default:
+#     external: true

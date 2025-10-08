@@ -1,0 +1,19 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1",
+    "pino": "^9.7.0",
+    "pino-http": "^10.5.0",
+    "pino-prettier": "^3.0.1-dev"
+  }
+}
