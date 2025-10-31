@@ -1,4 +1,4 @@
-import { ClientPage } from "@/presentation/pages/client/client-page";
+import { ClientPage } from "@/presentation/pages/clients/client-page";
 
 function App() {
 	return (
