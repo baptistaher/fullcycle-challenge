@@ -1,12 +1,12 @@
-import { ClientPage } from '@/presentation/pages/client/client-page';
+import { ClientPage } from "@/presentation/pages/client/client-page";
 
 function App() {
-  return (
-    <>
-      <h1 className="bg-red-600  text-red-100">wallet Game</h1>
-      <ClientPage />
-    </>
-  );
+	return (
+		<>
+			<h1 className="bg-red-600  text-red-100">wallet Game</h1>
+			<ClientPage />
+		</>
+	);
 }
 
 export default App;

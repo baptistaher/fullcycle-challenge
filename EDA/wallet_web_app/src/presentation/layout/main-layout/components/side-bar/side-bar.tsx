@@ -1,13 +1,13 @@
-import { useDispatch, useSelector } from '@/infra/store/store';
+import { useDispatch, useSelector } from "@/infra/store/store";
 
 export const SideBar = () => {
-  const dispatch = useDispatch();
+	const dispatch = useDispatch();
 
-  const { drawerOpen } = useSelector((state) => state.menu);
+	const { drawerOpen } = useSelector((state) => state.menu);
 
-  return (
-    <nav>
-      {drawerOpen} ? <>drawer</> : <>MiniDrawerStyled </>
-    </nav>
-  );
+	return (
+		<nav>
+			{drawerOpen} ? <>drawer</> : <>MiniDrawerStyled </>
+		</nav>
+	);
 };

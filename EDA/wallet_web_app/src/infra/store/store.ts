@@ -1,22 +1,22 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 
 import {
-  useDispatch as useAppDispatch,
-  useSelector as useAppSelector,
-  TypedUseSelectorHook,
-} from 'react-redux';
+	type TypedUseSelectorHook,
+	useDispatch as useAppDispatch,
+	useSelector as useAppSelector,
+} from "react-redux";
 
-import { persistStore } from 'redux-persist';
+import { persistStore } from "redux-persist";
 
-import { reducer as rootReducer } from './reducer';
+import { reducer as rootReducer } from "./reducer";
 
 const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-      immutableCheck: false,
-    }),
+	reducer: rootReducer,
+	middleware: (getDefaultMiddleware) =>
+		getDefaultMiddleware({
+			serializableCheck: false,
+			immutableCheck: false,
+		}),
 });
 
 const persister = persistStore(store);
