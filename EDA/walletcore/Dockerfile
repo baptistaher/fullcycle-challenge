@@ -1,4 +1,4 @@
-FROM golang:1.23
+FROM golang:1.25
 
 
 WORKDIR /app/
@@ -16,7 +16,7 @@ RUN go install -tags "mysql" github.com/golang-migrate/migrate/v4/cmd/migrate@la
 
 RUN go mod tidy
 
-# RUN ls -l /app/entrypoint
+
 
 RUN chmod +x /app/entrypoint/entrypoint.sh
 
