@@ -7,8 +7,9 @@ COPY . .
 
 
 RUN apt-get update  && \
-  apt-get install -y  librdkafka-dev && \ 
-  apt-get install  -y default-mysql-client
+  apt-get install -y librdkafka-dev default-mysql-client && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
+# apt-get install -y default-mysql-client
 
 
 RUN go install -tags "mysql" github.com/golang-migrate/migrate/v4/cmd/migrate@latest

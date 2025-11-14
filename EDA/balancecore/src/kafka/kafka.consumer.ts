@@ -53,6 +53,6 @@ export class KafkaConsumer implements OnModuleInit {
       },
     });
 
-    console.log('KafkaConsumer initialized');
+    this.logger.log('KafkaConsumer initialized');
   }
 }

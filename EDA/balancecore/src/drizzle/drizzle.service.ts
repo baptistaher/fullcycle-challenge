@@ -15,7 +15,7 @@ export class DrizzleService implements OnModuleInit, OnModuleDestroy {
   public db: ReturnType<typeof drizzle>;
   constructor() {
     this.pool = new Pool({
-      host: 'localhost',
+      host: 'postgres',
       port: 5432,
       user: 'postgres',
       password: 'postgres',

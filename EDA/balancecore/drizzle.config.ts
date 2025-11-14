@@ -5,6 +5,7 @@ export default defineConfig({
   schema: './drizzle/schema.ts',
   dialect: 'postgresql',
   dbCredentials: {
-    url: 'postgresql://postgres:postgres@localhost:5432/postgres',
+    url: 'postgresql://postgres:postgres@postgres:5432/postgres',
   },
+  verbose: true,
 });
