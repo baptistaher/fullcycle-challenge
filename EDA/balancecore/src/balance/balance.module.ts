@@ -3,8 +3,7 @@ import { BalanceService } from './balance.service';
 import { DrizzleService } from '../drizzle/drizzle.service';
 
 @Module({
-  // imports: [],
   providers: [BalanceService, DrizzleService],
-  exports: [],
+  exports: [BalanceService],
 })
 export class BalanceModule {}

@@ -1,14 +1,17 @@
-import { Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { Consumer, EachMessagePayload, Kafka } from 'kafkajs';
 import { BalanceService } from '../balance/balance.service';
 
 interface BalanceUpdatedEvent {
-  accountId: string;
-  ownerName: string;
-  balance: string;
-  updatedAt: Date;
+  Payload: {
+    account_id_from: string;
+    account_id_to: string;
+    balance_account_id_from: number;
+    balance_account_id_to: number;
+  };
 }
 
+@Injectable()
 export class KafkaConsumer implements OnModuleInit {
   private kafka: Kafka;
   private consumer: Consumer;
@@ -16,16 +19,19 @@ export class KafkaConsumer implements OnModuleInit {
 
   constructor(private readonly balanceService: BalanceService) {
     this.kafka = new Kafka({
-      brokers: ['kafka:9092'],
+      // clientId: 'wallet',
+      brokers: ['kafka:29092'],
     });
 
-    this.consumer = this.kafka.consumer({ groupId: 'balances-update' });
+    this.consumer = this.kafka.consumer({
+      groupId: 'wallet',
+    });
   }
 
   async onModuleInit() {
     await this.consumer.connect();
     await this.consumer.subscribe({
-      topic: 'BalanceUpdated',
+      topic: 'balances',
       fromBeginning: true,
     });
 
@@ -46,7 +52,12 @@ export class KafkaConsumer implements OnModuleInit {
           ) as BalanceUpdatedEvent;
           this.logger.log(`Received message: ${JSON.stringify(payload)}`);
 
-          await this.balanceService.upsertBalance(payload);
+          await this.balanceService.upsertBalance({
+            accountIdFrom: payload.Payload.account_id_from,
+            accountIdTo: payload.Payload.account_id_to,
+            balanceFrom: payload.Payload.balance_account_id_from,
+            balanceTo: payload.Payload.balance_account_id_to,
+          });
         } catch (error) {
           this.logger.error('Failed to process message', error);
         }

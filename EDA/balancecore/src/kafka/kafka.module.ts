@@ -5,5 +5,6 @@ import { BalanceModule } from '../balance/balance.module';
 @Module({
   imports: [BalanceModule],
   providers: [KafkaConsumer],
+  exports: [KafkaConsumer],
 })
 export class KafkaModule {}

@@ -1,8 +1,6 @@
 package handler
 
 import (
-	"fmt"
-	"os"
 	"sync"
 
 	"github.com/bosshentai/fullcycle-challenge/EDA/walletcore/pkg/events"
@@ -22,5 +20,5 @@ func NewBalanceUpdatedKafkaHandler(kafka *kafka.Producer) *UpdateBalanceKafkaHan
 func (h *UpdateBalanceKafkaHandler) Handle(message events.EventInterface, wg *sync.WaitGroup) {
 	defer wg.Done()
 	h.kafka.Publish(message, nil, "balances")
-	fmt.Fprintf(os.Stdout, "[UpdateBalanceKafkaHandler] Balance updated: %v\n", message.GetPayload())
+	// fmt.Fprintf(os.Stdout, "[UpdateBalanceKafkaHandler] Balance updated: %v\n", message.GetPayload())
 }

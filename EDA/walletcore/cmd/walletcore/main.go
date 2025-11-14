@@ -35,9 +35,10 @@ func main() {
 	defer db.Close()
 
 	configMap := ckafka.ConfigMap{
-		"bootstrap.servers":  "kafka:29092",
-		"group.id":           "wallet",
-		"enable.auto.commit": true,
+		"bootstrap.servers": "kafka:29092",
+		"group.id":          "wallet",
+		"auto.offset.reset": "earliest",
+		// "enable.auto.commit": true,
 	}
 
 	kafkaProducer := kafka.NewKafkaProducer(&configMap)
