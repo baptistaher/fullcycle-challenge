@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { DrizzleService } from '../drizzle/drizzle.service';
 import { balances } from '../../drizzle/schema';
 import { eq } from 'drizzle-orm';
@@ -12,13 +12,19 @@ interface BalanceUpdatedEvent {
 
 @Injectable()
 export class BalanceService {
+  logger = new Logger(BalanceService.name);
   constructor(private readonly drizzle: DrizzleService) {}
 
   async getBalance(accountId: string) {
+    this.logger.debug(`Getting balance for account ${accountId}`);
     const result = await this.drizzle.db
       .select()
       .from(balances)
       .where(eq(balances.accountId, accountId));
+
+    this.logger.debug(
+      `Balance for account ${accountId} is ${JSON.stringify(result)}`,
+    );
 
     return result || null;
   }

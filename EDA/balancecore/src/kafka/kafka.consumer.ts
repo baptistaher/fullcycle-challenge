@@ -19,7 +19,6 @@ export class KafkaConsumer implements OnModuleInit {
 
   constructor(private readonly balanceService: BalanceService) {
     this.kafka = new Kafka({
-      // clientId: 'wallet',
       brokers: ['kafka:29092'],
     });
 
@@ -50,7 +49,6 @@ export class KafkaConsumer implements OnModuleInit {
           const payload = JSON.parse(
             message.value.toString(),
           ) as BalanceUpdatedEvent;
-          this.logger.log(`Received message: ${JSON.stringify(payload)}`);
 
           await this.balanceService.upsertBalance({
             accountIdFrom: payload.Payload.account_id_from,
