@@ -79,11 +79,12 @@ export class Property {
     );
   }
 
+  // todo: this dont have test
   addBooking(booking: Booking) {
     this.bookings.push(booking);
   }
 
-  getBookings(): Booking[] {
-    return [...this.bookings];
-  }
+  // getBookings(): Booking[] {
+  //   return [...this.bookings];
+  // }
 }

@@ -5,7 +5,7 @@ module.exports = {
   moduleFileExtensions: ["ts", "js"],
   verbose: true,
   logHeapUsage: true,
-
+  collectCoverage: true,
   // maxWorkers: "50%",
 
   // testEnvironmentOptions: {
