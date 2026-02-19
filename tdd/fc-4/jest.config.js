@@ -5,6 +5,12 @@ module.exports = {
   moduleFileExtensions: ["ts", "js"],
   verbose: true,
   logHeapUsage: true,
+
+  // maxWorkers: "50%",
+
+  // testEnvironmentOptions: {
+  //   globalCleanup: "on",
+  // },
 };
 // import type { Config } from 'jest';
 

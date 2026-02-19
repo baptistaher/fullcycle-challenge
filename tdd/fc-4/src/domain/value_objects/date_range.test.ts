@@ -38,10 +38,10 @@ describe("DateRange Value Object", () => {
     expect(overlaps).toBe(true);
   });
 
-  it("should throw an error if data ", ()=>{
+  it("should throw an error if data ", () => {
     const date = new Date("2026-01-01");
     expect(() => {
       new DateRange(date, date);
     }).toThrow("End date cannot be the same as start date");
-  })
+  });
 });
