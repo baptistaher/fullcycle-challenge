@@ -6,7 +6,10 @@ module.exports = {
   verbose: true,
   logHeapUsage: true,
   collectCoverage: true,
-  // maxWorkers: "50%",
+  maxWorkers: "50%",
+  // moduleNameMapper: {
+  //   "^uuid$": require.resolve('uuid'),
+  // }
 
   // testEnvironmentOptions: {
   //   globalCleanup: "on",

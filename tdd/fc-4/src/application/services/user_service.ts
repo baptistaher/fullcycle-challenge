@@ -1,8 +1,9 @@
-import type { User } from "../domain/entities/user";
-import { UserRepository } from "../domain/repositories/user_repository";
 
 // Fake - Repositorio -> classe fake que simula 
 // Mocks 
+
+import { User } from "../../domain/entities/user";
+import { UserRepository } from "../../domain/repositories/user_repository";
 
 export class UserService {
 
