@@ -6,6 +6,7 @@ import { User } from "../../domain/entities/user";
 import { DateRange } from "../../domain/value_objects/data_range";
 import { Booking } from "../../domain/entities/booking";
 import { Property } from "../../domain/entities/property";
+import { TypeORMBookingRepository } from "./typeorm_booking_repository";
 
 describe("TypeORMBookingRepository",()=>{
     let dataSource: DataSource;
@@ -18,7 +19,7 @@ describe("TypeORMBookingRepository",()=>{
             type: "sqlite",
             database: ":memory:",
             dropSchema: true,
-            entities: [UserEntity, PropertyEntity, BookingEntity],
+            entities: [BookingEntity,UserEntity, PropertyEntity ],
             synchronize: true,
             logging: false,
         })

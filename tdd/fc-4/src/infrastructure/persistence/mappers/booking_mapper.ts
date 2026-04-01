@@ -32,7 +32,7 @@ export class BookingMapper {
     const entity = new BookingEntity();
     entity.id = domain.getId();
     entity.property = PropertyMapper.toPersistence(domain.getProperty());
-    entity.guest = UserMapper.toPersistence(domain.getUser());
+    entity.guest = UserMapper.toPersistence(domain.getGuest());
     entity.startDate = domain.getDateRange().getStartDate();
     entity.endDate = domain.getDateRange().getEndDate();
     entity.guestCount = domain.getGuestCount();

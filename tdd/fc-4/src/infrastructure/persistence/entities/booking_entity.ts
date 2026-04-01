@@ -22,7 +22,7 @@ export class BookingEntity {
         nullable: false
     })
     @JoinColumn({name: "guest_id"})
-    guest!: UserEntity
+    guest!: UserEntity;
 
     @Column({type: "datetime", name: "start_date"})
     startDate!: Date;
