@@ -14,6 +14,10 @@ export class PropertyEntity {
     @Column()
     description!: string;
 
-    @Column()  
+    @Column({name: "max_guests"})  
     maxGuests!: number;
+
+    @Column({name: "base_price_per_night", type: "decimal"})
+    basePricePerNight!:number;
+
 }
