@@ -5,6 +5,7 @@ import { BookingEntity } from "../entities/booking_entity";
 import { PropertyMapper } from "./proptery_mapper";
 import { UserMapper } from "./user_mapper";
 
+// todo: create test for mapper
 export class BookingMapper {
   static toDomain(entity: BookingEntity, property?: Property): Booking {
     const guest = UserMapper.toDomain(entity.guest);

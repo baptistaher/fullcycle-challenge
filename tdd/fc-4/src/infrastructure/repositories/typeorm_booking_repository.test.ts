@@ -76,4 +76,58 @@ describe("TypeORMBookingRepository",()=>{
     })
 
 
+    it("should return null if search booking is not found",async()=>{
+        const savedBooking = await bookingRepository.findById("2");
+
+        expect(savedBooking).toBeNull();
+    })
+
+
+
+    it("should save a booking with success - making cancellation later", async ()=>{
+        const propertyRepository = dataSource.getRepository(PropertyEntity);
+        const userRepository = dataSource.getRepository(UserEntity);
+
+
+        const propertyEntity = propertyRepository.create({
+            id: "1",
+            name: "House",
+            description: "A beautiful house",
+            maxGuests: 6,
+            basePricePerNight: 200,
+        });
+        await propertyRepository.save(propertyEntity);
+
+        const property = new Property("1", "House", "A beautiful house", 6, 200);
+
+
+        const userEntity = userRepository.create({
+            id: "1",
+            name: "John Doe",
+        })
+
+        await userRepository.save(userEntity);
+        const user = new User("1", "John Doe");
+
+        const dataRange = new DateRange(
+            new Date("2026-01-01"),
+            new Date("2026-01-05"),
+        );
+
+        const booking = new Booking("1", property, user, dataRange, 4);
+        await bookingRepository.save(booking);
+
+        booking.cancel(new Date ("2025-12-25"));
+        await bookingRepository.save(booking);
+
+
+        const updatedBooking = await bookingRepository.findById("1");
+
+
+        expect(updatedBooking).not.toBeNull();
+        expect(updatedBooking?.getStatus()).toBe("CANCELLED");
+
+
+    })
+
 })
